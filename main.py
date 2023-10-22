@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 
 from flask import Flask, request, send_from_directory, render_template, redirect, url_for
-import os
 import modules.ping_graph as ping_tool
 
 
@@ -13,12 +12,6 @@ def index():
     return render_template("index.html")
 
 
-@app.route('/favicon.ico')
-def favicon():
-    return send_from_directory(os.path.join(app.root_path, 'static'),
-                               'favicon.ico', mimetype='image/vnd.microsoft.icon')
-
-
 @app.route("/ping-graph", methods=["GET", "POST"])
 def ping_graph():
     # if the page is cashed, reload it
@@ -28,7 +21,6 @@ def ping_graph():
 @app.route("/res/ping-graph", methods=["POST"])
 def upload_file():
     return ping_tool.upload_file()
-
 
 
 @app.route("/graphs/<path:path>", methods=["GET"])

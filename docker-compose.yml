@@ -3,7 +3,7 @@ services:
   api:
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile-ubuntu
     ports:
       - "6969:6969"
     volumes:
