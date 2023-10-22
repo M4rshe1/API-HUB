@@ -30,8 +30,7 @@ LOGGING_HEADER = "[PING_GRAPH]"
 # ------------------------------------------------------- #
 
 def gen_graph(data: list, file_path: str, settings: dict) -> None:
-    if not os.path.exists(GRAPH_FOLDER):
-        os.makedirs(GRAPH_FOLDER)
+    # print(data)
     start_time = datetime.strptime(data[0]["starttime"], "%Y.%m.%d %H:%M:%S")
     end_time = datetime.strptime(data[-1]["endtime"], "%Y.%m.%d %H:%M:%S")
     time_diff = end_time - start_time
@@ -136,21 +135,22 @@ def gen_graph(data: list, file_path: str, settings: dict) -> None:
     clean_up(file_path)
 
 
-def upload_file():
+def get_ping_data():
     if request.method == "POST":
         try:
+            if not os.path.exists(GRAPH_FOLDER):
+                os.makedirs(GRAPH_FOLDER)
             if 'file' not in request.files:
                 return "No file part", 400
 
             # Get the file from the request
             file = request.files['file']
-
             # Check if the file is empty
             if file.filename == '':
                 return "No selected file", 400
-
             # Read the JSON data from the file
             json_data = json.loads(file.read().decode('utf-8-sig'))
+            # print(json_data)
 
             filename = f"ping_data_{datetime.now().strftime('%Y-%m-%d_%H-%M-%S')}"
 
@@ -174,6 +174,7 @@ def upload_file():
                 return redirect(graph_link)
 
         except Exception as e:
+
             return "<strong>Error: </strong>" + str(e)
     else:
         return redirect("/")

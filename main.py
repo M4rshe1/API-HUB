@@ -20,7 +20,7 @@ def ping_graph():
 
 @app.route("/res/ping-graph", methods=["POST"])
 def upload_file():
-    return ping_tool.upload_file()
+    return ping_tool.get_ping_data()
 
 
 @app.route("/graphs/<path:path>", methods=["GET"])
