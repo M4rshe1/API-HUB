@@ -132,7 +132,7 @@ def gen_graph(data: list, file_path: str, settings: dict) -> None:
 
     plt.savefig(file_path, format="png")
     plt.close(fig)
-    clean_up(file_path)
+    # clean_up(file_path)
 
 
 def get_ping_data():
@@ -168,7 +168,7 @@ def get_ping_data():
                 )
 
                 # Provide a download link for the generated graph
-                graph_link = f"/graphs/{filename}.png"
+                graph_link = f"/{GRAPH_FOLDER}/{filename}.png"
 
                 # redirect to the graph
                 return redirect(graph_link)
@@ -180,14 +180,14 @@ def get_ping_data():
         return redirect("/")
 
 
-def clean_up(file_path: str):
-    if not KeepJSON:
-        os.remove(file_path.split("/")[-1].split(".")[0] + ".json")
-
-    for file in os.listdir(GRAPH_FOLDER):
-        if os.path.getmtime(os.path.join(GRAPH_FOLDER, file)) < datetime.now().timestamp() - ImageExpire:
-            os.remove(os.path.join(GRAPH_FOLDER, file))
-    return
+# def clean_up(file_path: str):
+#     if not KeepJSON:
+#         os.remove(file_path.split("/")[-1].split(".")[0] + ".json")
+#
+#     for file in os.listdir(GRAPH_FOLDER):
+#         if os.path.getmtime(os.path.join(GRAPH_FOLDER, file)) < datetime.now().timestamp() - ImageExpire:
+#             os.remove(os.path.join(GRAPH_FOLDER, file))
+#     return
 
 
 if __name__ == '__main__':
