@@ -1,0 +1,18 @@
+{% extends 'layout.html' %}
+{% block head %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='index.css') }}">
+{% endblock head %}
+
+{% block title %}
+    API HUB
+{% endblock title %}
+{% block content %}
+<div class="wrapper">
+    <a href="/ping-graph" class="api_item">
+        <span class="api_name">Ping Graph</span>
+        <span class="api_description">Converts Ping Data to a helpful graph.</span>
+    </a>
+</div>
+{% endblock content %}
+
+

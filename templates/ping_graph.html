@@ -1,0 +1,62 @@
+{% extends 'layout.html' %}
+{% block head %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='ping_graph.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='checkbox.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='button.css') }}">
+
+{% endblock head %}
+{% block title %}
+    Ping Graph
+{% endblock title %}
+{% block content %}
+
+<div id="drop-area">
+    <p>Drag & Drop JSON File Here</p>
+    <p>or</p>
+    <form action="/res/ping-graph" id="inputForm" method="POST" enctype="multipart/form-data">
+        <label for="file-input">
+            <input type="file" id="file-input" name="file" accept=".json" style="display:none">
+            <button type="button" class="button-36" id="button">Select File</button>
+        </label>
+
+        <div class="checkbox-wrapper-4" title="Shows the time in milliseconds it needed to ping beside the marker.">
+            <input class="inp-cbx" id="show_times" type="checkbox" name="show_times"/>
+            <label class="cbx" for="show_times">
+                <span>
+                  <svg width="12px" height="10px">
+                    <use xlink:href="#check-4"></use>
+                  </svg>
+            </span>
+                <span>Show Times</span>
+            </label>
+            <svg class="inline-svg">
+                <symbol id="check-4" viewBox="0 0 12 10">
+                    <polyline points="1.5 6 4.5 9 10.5 1"></polyline>
+                </symbol>
+            </svg>
+        </div> <div class="checkbox-wrapper-4" title="Shows a Table with some helpful information.">
+            <input class="inp-cbx" id="show_table" type="checkbox" name="show_table"/>
+            <label class="cbx" for="show_table">
+                <span>
+                  <svg width="12px" height="10px">
+                    <use xlink:href="#check-4"></use>
+                  </svg>
+            </span>
+                <span>Show Table</span>
+            </label>
+            <svg class="inline-svg">
+                <symbol id="check-4" viewBox="0 0 12 10">
+                    <polyline points="1.5 6 4.5 9 10.5 1"></polyline>
+                </symbol>
+            </svg>
+        </div>
+    </form>
+</div>
+
+<!-- JavaScript to handle drag-and-drop -->
+{% endblock content %}
+{% block scripts %}
+    <script src="{{ url_for('static', filename='ping_graph.js') }}"></script>
+{% endblock scripts %}
+</body>
+</html>

@@ -1,0 +1,14 @@
+:root {
+    --linear-gradient: linear-gradient(92.88deg, #455EB5 9.16%, #5643CC 43.89%, #673FD7 64.72%);
+    --box-shadow: 0 0 20px rgba(69, 94, 181, 0.7), 0 0 20px rgba(69, 94, 181, 0.7) inset;
+    --box-shadow-hover: 0 0 20px rgba(69, 94, 181, 0.9);
+    --color-primary: #455EB5;
+    --color-primary-hover: #5643CC;
+    --color-secondary: #5643CC;
+    --color-secondary-hover: #673FD7;
+    --color-tertiary: #673FD7;
+    --color-tertiary-hover: #673FD7;
+    --color-text: #ddd;
+    --color-background: #333;
+    --color-background-secondary: #232323;
+}

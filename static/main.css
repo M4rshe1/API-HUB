@@ -1,0 +1,60 @@
+@import url('https://fonts.googleapis.com/css2?family=Lexend:wght@200&family=Roboto+Mono:wght@400;500&display=swap');
+@import url('https://use.fontawesome.com/releases/v6.1.2/css/all.css');
+@import "colors.css";
+* {
+    box-sizing: border-box;
+    font-family: 'Roboto Mono', monospace;
+}
+
+body {
+    background-color: var(--color-background); /* Dark background color */
+    color: #fff; /* Text color */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+}
+a {
+    text-decoration: none;
+    color: var(--color-primary);
+    font-weight: bold;
+}
+a:hover {
+    color: var(--color-primary-hover);
+}
+main {
+    flex-grow: 1;
+    padding: 20px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+header {
+    width: 100vw;
+    display: grid;
+    grid-template-columns: 1fr 3fr 1fr;
+}
+header a {
+    text-decoration: none;
+    color: #000;
+    display: flex;
+    align-items: center;
+    margin-left: 30px;
+}
+header h1 {
+    text-align: center;
+}
+.home-icon {
+    color: white;
+    scale: 2
+}
+.home-icon:hover {
+    color: #ddd;
+}

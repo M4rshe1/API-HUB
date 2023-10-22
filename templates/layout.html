@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta charset="UTF-8">
+    <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie-edge">
+    <meta http-equiv="cache-control" content="no-cache">
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="expires" content="0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
+    {% if title %}
+        <title>API HUB - {{ title }}</title>
+    {% else %}
+        <title>API HUB</title>
+    {% endif %}
+    {% block head %}
+    {% endblock head %}
+</head>
+<body>
+    <header>
+        <a href="/"><i class="fa-solid fa-house home-icon"></i></a>
+         {% if title %}
+            <h1>{{ title }}</h1>
+        {% else %}
+            <h1>API HUB</h1>
+        {% endif %}
+        <a href="/"></a>
+    </header>
+    <main>
+    {% block content %}
+    {% endblock content %}
+    </main>
+    <footer>
+        <p>API HUB by <a href="colin.heggli.dev">Colin Heggli</a></p>
+    </footer>
+    {% block scripts %}
+    {% endblock scripts %}
+</body>
+</html>
