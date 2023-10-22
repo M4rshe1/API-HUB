@@ -1,20 +1,37 @@
+#!/usr/bin/python3
+# ------------------------------------------------------- #
+#                   import statements                     #
+# ------------------------------------------------------- #
+
+import json
 import os
 from datetime import datetime
 import matplotlib.pyplot as plt
+from flask import redirect, request
 from matplotlib import gridspec
 
+# ------------------------------------------------------- #
+#                   global variables                      #
+# ------------------------------------------------------- #
 
 # Set the folder where graphs will be stored
 GRAPH_FOLDER = "graphs"
 ALLOWED_EXTENSIONS = {'json'}
-# Check if the graph folder exists, and create it if not
-if not os.path.exists(GRAPH_FOLDER):
-    os.makedirs(GRAPH_FOLDER)
+KeepJSON = False
+ImageExpire = 60 * 60 * 24 * 7  # 7 days
+LOGGING_HEADER = "[PING_GRAPH]"
 
+
+# Check if the graph folder exists, and create it if not
+
+
+# ------------------------------------------------------- #
+#                   function definitions                  #
+# ------------------------------------------------------- #
 
 def gen_graph(data: list, file_path: str, settings: dict) -> None:
-
-    print(settings)
+    if not os.path.exists(GRAPH_FOLDER):
+        os.makedirs(GRAPH_FOLDER)
     start_time = datetime.strptime(data[0]["starttime"], "%Y.%m.%d %H:%M:%S")
     end_time = datetime.strptime(data[-1]["endtime"], "%Y.%m.%d %H:%M:%S")
     time_diff = end_time - start_time
@@ -46,7 +63,6 @@ def gen_graph(data: list, file_path: str, settings: dict) -> None:
     # Adjust the spacing between the subplots to make more room for the table
     plt.subplots_adjust(left=0.1, right=0.9, top=0.9, bottom=0.2)
 
-
     # Create a dictionary to store colors for each request name
     request_colors = {}
     plotted_names = set()
@@ -75,12 +91,14 @@ def gen_graph(data: list, file_path: str, settings: dict) -> None:
                 else:
                     f_color = "red"
                 ax1.plot(timestamps[i:i + 2], times[i:i + 2], linestyle='-', markersize=6,
-                         markerfacecolor=f_color, markeredgecolor=f_color, markeredgewidth=1, marker=marker, color=color)
+                         markerfacecolor=f_color, markeredgecolor=f_color, markeredgewidth=1, marker=marker,
+                         color=color)
             else:
                 marker = 'X'
                 f_color = 'red'
                 ax1.plot(timestamps[i:i + 2], times[i:i + 2], linestyle='-', markersize=8,
-                         markerfacecolor=f_color, markeredgecolor=f_color, markeredgewidth=1, marker=marker, color=color)
+                         markerfacecolor=f_color, markeredgecolor=f_color, markeredgewidth=1, marker=marker,
+                         color=color)
 
         # Add text labels for times next to the markers
         if (settings is not None and settings.get("show_times", "false") == "true" or
@@ -114,6 +132,61 @@ def gen_graph(data: list, file_path: str, settings: dict) -> None:
             cell.set_facecolor('lightgray')
 
     plt.savefig(file_path, format="png")
+    plt.close(fig)
+    clean_up(file_path)
+
+
+def upload_file():
+    if request.method == "POST":
+        try:
+            if 'file' not in request.files:
+                return "No file part", 400
+
+            # Get the file from the request
+            file = request.files['file']
+
+            # Check if the file is empty
+            if file.filename == '':
+                return "No selected file", 400
+
+            # Read the JSON data from the file
+            json_data = json.loads(file.read().decode('utf-8-sig'))
+
+            filename = f"ping_data_{datetime.now().strftime('%Y-%m-%d_%H-%M-%S')}"
+
+            # Save the file to the GRAPH_FOLDER
+            file.save(os.path.join(GRAPH_FOLDER, filename + ".json"))
+
+            # Get the settings from the request
+            settings = request.form.to_dict()
+            if file:
+                # Generate a graph and save it to the GRAPH_FOLDER
+                gen_graph(
+                    json_data,
+                    os.path.join(GRAPH_FOLDER, filename + ".png"),
+                    settings
+                )
+
+                # Provide a download link for the generated graph
+                graph_link = f"/graphs/{filename}.png"
+
+                # redirect to the graph
+                return redirect(graph_link)
+
+        except Exception as e:
+            return "<strong>Error: </strong>" + str(e)
+    else:
+        return redirect("/")
+
+
+def clean_up(file_path: str):
+    if not KeepJSON:
+        os.remove(file_path.split("/")[-1].split(".")[0] + ".json")
+
+    for file in os.listdir(GRAPH_FOLDER):
+        if os.path.getmtime(os.path.join(GRAPH_FOLDER, file)) < datetime.now().timestamp() - ImageExpire:
+            os.remove(os.path.join(GRAPH_FOLDER, file))
+    return
 
 
 if __name__ == '__main__':

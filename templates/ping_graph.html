@@ -2,12 +2,10 @@
 {% block head %}
     <link rel="stylesheet" href="{{ url_for('static', filename='ping_graph.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='checkbox.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='button.css') }}">
-
 {% endblock head %}
-{% block title %}
-    Ping Graph
-{% endblock title %}
+{#{% block title %}#}
+{#    Ping Graph#}
+{#{% endblock title %}#}
 {% block content %}
 
 <div id="drop-area">
@@ -58,5 +56,3 @@
 {% block scripts %}
     <script src="{{ url_for('static', filename='ping_graph.js') }}"></script>
 {% endblock scripts %}
-</body>
-</html>

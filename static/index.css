@@ -33,7 +33,7 @@
     margin-bottom: 10px;
 }
 .api_description {
-    color: #ddd;
+    color: var(--color-text-secondary);
     text-align: center;
     font-size: 14px;
 }

@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta charset="UTF-8">
     <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
+    <link rel="stylesheet" href="{{ url_for('static', filename='button.css') }}">
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie-edge">
@@ -20,23 +21,38 @@
     {% endblock head %}
 </head>
 <body>
-    <header>
-        <a href="/"><i class="fa-solid fa-house home-icon"></i></a>
-         {% if title %}
-            <h1>{{ title }}</h1>
-        {% else %}
-            <h1>API HUB</h1>
-        {% endif %}
-        <a href="/"></a>
-    </header>
-    <main>
+<header>
+    <a href="/"><i class="fa-solid fa-house home-icon"></i></a>
+    {% if title %}
+        <h1>{{ title }}</h1>
+    {% else %}
+        <h1>API HUB</h1>
+    {% endif %}
+    <a href="/"></a>
+</header>
+<main>
     {% block content %}
     {% endblock content %}
-    </main>
-    <footer>
-        <p>API HUB by <a href="colin.heggli.dev">Colin Heggli</a></p>
-    </footer>
-    {% block scripts %}
-    {% endblock scripts %}
+</main>
+<footer>
+    <div class="footer">
+        <div class="footer-el">
+            <img class="footer-logo" src="{{ url_for('static', filename='favicon.ico') }}" alt=icon">
+            <h3>API HUB</h3>
+            <p>API HUB is a free and open source<br> API hub for developers.</p>
+            <a href="https://github.com/M4rshe1/API-HUB" class="button-36">Download</a>
+        </div>
+        <div class="footer-el">
+
+        </div>
+        <div class="footer-el">
+
+        </div>
+    </div>
+
+    <p>API HUB by <a class="link" href="https://colin.heggli.dev">Colin Heggli</a></p>
+</footer>
+{% block scripts %}
+{% endblock scripts %}
 </body>
 </html>
