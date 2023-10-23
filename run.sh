@@ -28,12 +28,12 @@ if [ "$rebuild" = true ] || [ "$1" = "-rebuild" ] || [ "$2" = "-rebuild" ]; then
     echo "Pulling the latest changes..."
     git pull origin "$branch"
     sleep 5
+    echo "Deleting the old Docker image..."
+    sudo docker image rm -f apihub
     echo "Building the Docker image..."
     sudo docker build --no-cache -t apihub .
     echo "Deleting the old Docker container..."
     sudo docker rm -f apihub
-    echo "Deleting the old Docker image..."
-    sudo docker image rm -f apihub
     echo "Running the new Docker container..."
     sudo docker run -d -p 6969:6969 -v config:/app/config --restart unless-stopped --name apihub apihub
 fi
