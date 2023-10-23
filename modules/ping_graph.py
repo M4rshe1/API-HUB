@@ -21,7 +21,7 @@ ALLOWED_EXTENSIONS = {'json'}
 KeepJSON = False
 ImageExpire = 60 * 60 * 24
 LOGGING_HEADER = "[PING_GRAPH]"
-LOGGING_LVL = config.load_config("config/config.json")["settings"]["log_lvl"]
+LOGGING_LVL = config.load_config("config.json")["settings"]["log_lvl"]
 
 
 # Check if the graph folder exists, and create it if not

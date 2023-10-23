@@ -15,11 +15,11 @@ from modules import logger, config
 # ------------------------------------------------------- #
 app = Flask(__name__, template_folder="templates")
 LOGGING_HEADER = "[MAIN]"
-LOGGING = config.load_config("config/config.json")["settings"]["log"]  # 1 or 0
-LOGGING_LVL = config.load_config("config/config.json")["settings"]["log_lvl"]  # DEBUG = 0, INFO = 1, WARNING = 2, ERROR = 3, CRITICAL = 4
+LOGGING = config.load_config("config.json")["settings"]["log"]  # 1 or 0
+LOGGING_LVL = config.load_config("config.json")["settings"]["log_lvl"]  # DEBUG = 0, INFO = 1, WARNING = 2, ERROR = 3, CRITICAL = 4
 logging_levels = ["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"]
 logger.log(f"Setting Logging to {bool(LOGGING)} with level "
-           f"{logging_levels[config.load_config('config/config.json')['settings']['log_lvl']]}", 1,
+           f"{logging_levels[config.load_config('config.json')['settings']['log_lvl']]}", 1,
            LOGGING_HEADER, LOGGING, lvl=1)
 
 
@@ -30,7 +30,7 @@ logger.log(f"Setting Logging to {bool(LOGGING)} with level "
 
 @app.route("/", methods=["GET"])
 def index():
-    file = config.load_config("config/config.json")
+    file = config.load_config("config.json")
     logger.log("Loading index page...", LOGGING_LVL, LOGGING_HEADER, LOGGING, lvl=1)
     return render_template("index.html", apis=file["apis"], files=file["files"])
 
@@ -38,7 +38,7 @@ def index():
 @app.route("/u/<path:path>", methods=["GET"])
 def ping_graph(path: str):
     logger.log(f"Loading api UI using GET methode with path: /u/{path}", LOGGING_LVL, LOGGING_HEADER, LOGGING, lvl=1)
-    for i in config.load_config("config/config.json")["apis"]:
+    for i in config.load_config("config.json")["apis"]:
         if path == i["file"]:
             template = f"{path}.html"
             try:
@@ -74,7 +74,7 @@ def send_graph(path: str):
 @app.route("/<path:path>", methods=["GET"])
 def send_ps1(path: str):
     logger.log(f"Loading ps1 via GET with path: /{path}", LOGGING_LVL, LOGGING_HEADER, LOGGING, lvl=0)
-    for i in config.load_config("config/config.json")["files"]:
+    for i in config.load_config("config.json")["files"]:
         if path == i["name"]:
             return redirect(i["link"])
     return render_template("error.html", errorcode=404, errordesc="RUN file not found!"), 404

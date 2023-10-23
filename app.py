@@ -4,7 +4,7 @@ from modules import logger, config
 
 PORT = 6969
 LOGGING_HEADER = "[APP]"
-LOGGING_LVL = config.load_config("config/config.json")["settings"]["log_lvl"]
+LOGGING_LVL = config.load_config("config.json")["settings"]["log_lvl"]
 LOGGING = True
 
 if __name__ == "__main__":

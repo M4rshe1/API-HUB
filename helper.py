@@ -45,8 +45,8 @@ def create_api():
         f.write(f"#                       variables                         #\n")
         f.write(f"# ------------------------------------------------------- #\n")
         f.write(f"LOGGING_HEADER = '[{api['file'].upper()}]'\n")
-        f.write(f"LOGGING = config.load_config('config/config.json')['settings']['log']\n")
-        f.write(f"LOGGING_LVL = config.load_config('config/config.json')['settings']['log_lvl']\n")
+        f.write(f"LOGGING = config.load_config('config.json')['settings']['log']\n")
+        f.write(f"LOGGING_LVL = config.load_config('config.json')['settings']['log_lvl']\n")
         f.write(f"# ------------------------------------------------------- #\n")
         f.write(f"#                   function definitions                  #\n")
         f.write(f"# ------------------------------------------------------- #\n")
@@ -63,10 +63,10 @@ def create_api():
         with open("templates/template.html", "r") as template:
             f.write(template.read())
 
-    with open("config/config.json", "r") as f:
+    with open("config.json", "r") as f:
         config_file = json.load(f)
         config_file["apis"].append(api)
-        with open("config/config.json", "w") as f:
+        with open("config.json", "w") as f:
             json.dump(config_file, f, indent=4)
 
     with open("main.py", "r") as f:
@@ -112,10 +112,10 @@ def create_run_file():
     files["author_link"] = input("Link to the author of the file: ")
     files["docs"] = input("Documentation link of the file: ")
 
-    with open(f"config/config.json", "r") as f:
+    with open(f"config.json", "r") as f:
         config_file = json.load(f)
         config_file["files"].append(files)
-        with open("config/config.json", "w") as f:
+        with open("config.json", "w") as f:
             json.dump(config_file, f, indent=4)
 
 
@@ -126,12 +126,12 @@ def del_api():
     if name in forbidden_names:
         print("You can't delete this file!")
         return
-    with open("config/config.json", "r") as f:
+    with open("config.json", "r") as f:
         config_file = json.load(f)
         for i in config_file["apis"]:
             if i["file"] == name:
                 config_file["apis"].remove(i)
-                with open("config/config.json", "w") as f:
+                with open("config.json", "w") as f:
                     json.dump(config_file, f, indent=4)
                 break
 
@@ -154,12 +154,12 @@ def del_run_file():
     if name in forbidden_names:
         print("You can't delete this file!")
         return
-    with open("config/config.json", "r") as f:
+    with open("config.json", "r") as f:
         config_file = json.load(f)
         for i in config_file["files"]:
             if i["name"] == name:
                 config_file["files"].remove(i)
-                with open("config/config.json", "w") as f:
+                with open("config.json", "w") as f:
                     json.dump(config_file, f, indent=4)
                 break
 
@@ -168,7 +168,7 @@ def visible_run_file():
     name = input("Name of the file like (ping_tool): ")
     if name == "":
         return
-    with open("config/config.json", "r") as f:
+    with open("config.json", "r") as f:
         config_file = json.load(f)
         for i in config_file["files"]:
             if i["name"] == name:
@@ -176,7 +176,7 @@ def visible_run_file():
                     i["visible"] = 0
                 else:
                     i["visible"] = 1
-                with open("config/config.json", "w") as f:
+                with open("config.json", "w") as f:
                     json.dump(config_file, f, indent=4)
                 break
 
@@ -185,7 +185,7 @@ def visible_api():
     name = input("Name of the API like (ping_graph): ")
     if name == "":
         return
-    with open("config/config.json", "r") as f:
+    with open("config.json", "r") as f:
         config_file = json.load(f)
         for i in config_file["apis"]:
             if i["file"] == name:
@@ -193,13 +193,13 @@ def visible_api():
                     i["visible"] = 0
                 else:
                     i["visible"] = 1
-                with open("config/config.json", "w") as f:
+                with open("config.json", "w") as f:
                     json.dump(config_file, f, indent=4)
                 break
 
 
 if __name__ == '__main__':
-    with open("config/config.json", "r") as f:
+    with open("config.json", "r") as f:
         config = json.load(f)
     for i in config["apis"]:
         forbidden_names_create.append(i["name"])

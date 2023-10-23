@@ -32,7 +32,7 @@
             "link": "christitus.com/win",
             "command": "irm christitus.com/win | iex",
             "description": "A Powershell script that installs a bunch of useful tools.<strong><br>(Not made by me)<br>Credit to Chris Titus Tech.</strong>",
-            "docs": "https://christitus.com/ctt",
+            "docs": "https://github.com/ChrisTitusTech/winutil",
             "author": "Chris Titus Tech",
             "author_link": "https://christitus.com",
             "visible": 1
