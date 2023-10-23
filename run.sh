@@ -32,7 +32,7 @@ if [ "$rebuild" = true ] || [ "$1" = "-rebuild" ]; then
     echo "Deleting the old Docker container..."
     sudo docker rm -f apihub
     echo "Running the new Docker container..."
-    sudo docker run -d -p 6969:6969 -v config:/app/config --name apihub apihub
+    sudo docker run -d -p 6969:6969 -v config:/app/config --restart unless-stopped --name apihub apihub
 fi
 
 echo "Done."

@@ -20,5 +20,5 @@ RUN . venv/bin/activate && pip3 install --trusted-host pypi.python.org -r requir
 EXPOSE 6969
 
 # Run app.py when the container launches
-CMD ["python3", "app.py"]
+CMD ["/bin/bash", "-c", "source venv/bin/activate && python3 app.py"]
 
