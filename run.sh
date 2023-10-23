@@ -40,7 +40,7 @@ if $rebuild; then
     echo "Deleting the old Docker container..."
     sudo docker rm -f apihub
     echo "Deleting the old Docker image..."
-    sudo docker images rm -f apihub
+    sudo docker images rmi --force apihub
     echo "Building the Docker image..."
     sudo docker build --no-cache -t apihub .
     echo "Running the new Docker container..."
