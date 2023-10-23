@@ -43,14 +43,14 @@ if $rebuild; then
     echo "Running the new Docker container..."
     sudo docker run -d -p 6969:6969 -v config:/app/config --restart unless-stopped --name apihub apihub
 fi
+if $cleanup; then
+    echo "Cleaning up..."
+    sudo docker images -a | grep "none" | awk '{print $3}' | xargs sudo docker image rm -f
+fi
 if $logs ; then
     echo "Showing the logs..."
     sudo docker logs -f apihub
 fi
 
-if $cleanup; then
-    echo "Cleaning up..."
-    sudo docker images -a | grep "none" | awk '{print $3}' | xargs sudo docker image rm -f
-fi
 
 echo "Done."

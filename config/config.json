@@ -17,6 +17,13 @@
       "link": "https://raw.githubusercontent.com/M4rshe1/tups1s/main/USB/Scripts/ping_tool/ping_stats.ps1",
       "command": "irm api.heggli.dev/run/ping_tool | iex",
       "description": "A Powershell script that pings a host and returns the results in a JSON format."
+    },
+    {
+      "name": "ctt",
+      "show": "CTT Tool",
+      "link": "christitus.com/win",
+      "command": "irm christitus.com/win | iex",
+      "description": "A Powershell script that installs a bunch of useful tools.<strong><br>(Not made by me)<br>Credit to Chris Titus Tech.</strong>"
     }
   ]
 }

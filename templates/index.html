@@ -7,9 +7,9 @@
     <h2 class="title">API Endpoints</h2>
     <div class="wrapper">
         {% for api in apis %}
-            <a href="/u/{{ api.file }}" class="api_item border-1">
-                <span class="api_name">{{ api.name }}</span>
-                <span class="api_description">{{ api.description }}</span>
+            <a href="/u/{{ api.file|safe }}" class="api_item border-1">
+                <span class="api_name">{{ api.name|safe }}</span>
+                <span class="api_description">{{ api.description|safe }}</span>
             </a>
         {% endfor %}
     </div>
@@ -17,9 +17,9 @@
     <div class="wrapper">
         {% for file in files %}
             <a class="api_item border-1 files_item" title="Click to copy command"  onclick="copyCommand('{{ file.command }}')">
-                <span class="file_name">{{ file.show }}</span>
-                <span class="command">{{ file.command }}</span>
-                <span class="file_description">{{ file.description }}</span>
+                <span class="file_name">{{ file.show|safe}}</span>
+                <span class="command">{{ file.command|safe }}</span>
+                <span class="file_description">{{ file.description|safe }}</span>
             </a>
         {% endfor %}
     </div>
