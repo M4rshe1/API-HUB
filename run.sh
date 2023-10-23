@@ -8,7 +8,7 @@ branch="main"
 if git fetch origin "$branch" && [ "$(git rev-list HEAD...origin/"$branch" --count)" -eq 0 ]; then
     echo "The Git repository is up to date."
     # shellcheck disable=SC2162
-    if not ["-rebuild" in sys.argv] || not "-rebuild" in sys.argv; then
+    if  "-rebuild" not in sys.argv ||  "-rebuild" not in sys.argv; then
         rebuild=false
     else
         rebuild=true
