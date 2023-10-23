@@ -4,6 +4,9 @@
 branch="main"
 
 # Check if the local branch is behind the remote branch
+rebuild=false
+logs=false
+cleanup=false
 
 for arg in "$@"; do
     # Check if the current argument is equal to the target string
