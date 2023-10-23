@@ -94,3 +94,7 @@ h3 {
     height: 60px;
     margin: 10px;
 }
+h2 {
+    color: var(--color-text-secondary);
+    margin: .5rem 0 0 0;
+}

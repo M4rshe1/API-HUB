@@ -31,15 +31,14 @@ logger.log(f"Setting Logging to {bool(LOGGING)} with level {logging_levels[confi
 
 @app.route("/", methods=["GET"])
 def index():
-    file = config["apis"]
     logger.log("Loading index page...", LOGGING_LVL, LOGGING_HEADER, LOGGING, lvl=1)
-    return render_template("index.html", apis=file)
+    return render_template("index.html", apis=config["apis"], files=config["files"])
 
 
 @app.route("/u/<path:path>", methods=["GET"])
 def ping_graph(path: str):
     logger.log(f"Loading api UI using GET methode with path: /u/{path}", LOGGING_LVL, LOGGING_HEADER, LOGGING, lvl=1)
-    for i in config["apis"]:
+    for i in config:
         if path == i["file"]:
             template = f"{path}.html"
             try:

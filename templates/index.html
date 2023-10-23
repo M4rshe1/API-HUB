@@ -4,14 +4,29 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='border.css') }}">
 {% endblock head %}
 {% block content %}
-<div class="wrapper">
-    {% for api in apis %}
-        <a href="/u/{{ api.file }}" class="api_item link border-1">
-            <span class="api_name">{{ api.name }}</span>
-            <span class="api_description">{{ api.description }}</span>
-        </a>
-    {% endfor %}
-</div>
+    <h2 class="title">API Endpoints</h2>
+    <div class="wrapper">
+        {% for api in apis %}
+            <a href="/u/{{ api.file }}" class="api_item border-1">
+                <span class="api_name">{{ api.name }}</span>
+                <span class="api_description">{{ api.description }}</span>
+            </a>
+        {% endfor %}
+    </div>
+    <h2 class="title">RUN Files</h2>
+    <div class="wrapper">
+        {% for file in files %}
+            <a class="api_item border-1 files_item" title="Click to copy command"  onclick="copyCommand('{{ file.command }}')">
+                <span class="file_name">{{ file.show }}</span>
+                <span class="command">{{ file.command }}</span>
+                <span class="file_description">{{ file.description }}</span>
+            </a>
+        {% endfor %}
+    </div>
 {% endblock content %}
+{% block scripts %}
+    <script src="{{ url_for('static', filename='index.js') }}"></script>
+{% endblock scripts %}
+```
 
 
