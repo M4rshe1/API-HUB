@@ -6,20 +6,29 @@
 {% block content %}
     <h2 class="title">API Endpoints</h2>
     <div class="wrapper">
-        {% for api in apis %}
+        {% for api in apis if api.visible == 1 %}
             <a href="/u/{{ api.file|safe }}" class="api_item border-1">
                 <span class="api_name">{{ api.name|safe }}</span>
                 <span class="api_description">{{ api.description|safe }}</span>
+                <span class="item_links">
+                    <span class="link" onclick="window.open('{{ api.docs }}', '_blank')">docs</span>
+                    <span class="link" onclick="window.open('{{ api.author_link }}', '_blank')">{{ api.author }}</span>
+                </span>
             </a>
         {% endfor %}
     </div>
     <h2 class="title">RUN Files</h2>
     <div class="wrapper">
-        {% for file in files %}
-            <a class="api_item border-1 files_item" title="Click to copy command"  onclick="copyCommand('{{ file.command }}')">
-                <span class="file_name">{{ file.show|safe}}</span>
+        {% for file in files if file.visible == 1 %}
+            <a class="api_item border-1 files_item" title="Click to copy command"
+               onclick="copyCommand('{{ file.command }}')">
+                <span class="file_name">{{ file.show|safe }}</span>
                 <span class="command">{{ file.command|safe }}</span>
                 <span class="file_description">{{ file.description|safe }}</span>
+                <span class="item_links">
+                    <span class="link" onclick="window.open('{{ file.docs }}', '_blank')">docs</span>
+                    <span class="link" onclick="window.open('{{ file.author_link }}', '_blank')">{{ file.author }}</span>
+                </span>
             </a>
         {% endfor %}
     </div>
@@ -27,6 +36,6 @@
 {% block scripts %}
     <script src="{{ url_for('static', filename='index.js') }}"></script>
 {% endblock scripts %}
-```
+
 
 

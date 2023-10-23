@@ -53,6 +53,7 @@ def ping_graph(path: str):
 def upload_file(path: str):
     logger.log(f"Loading api UI using POST methode with path: /i/{path}", LOGGING_LVL, LOGGING_HEADER, LOGGING, lvl=1)
     path_handler = {
+        "qwdqwdqwd": qwdqwdqwd.start_point(),
         "ping_graph": ping_tool.get_ping_data()
 
     }

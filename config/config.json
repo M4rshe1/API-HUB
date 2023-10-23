@@ -1,29 +1,41 @@
 {
-  "settings": {
-    "log": 1,
-    "log_lvl": 1
-  },
-  "apis": [
-    {
-      "name": "Ping Graph",
-      "description": "Converts Ping Data to a helpful graph.",
-      "file": "ping_graph"
-    }
-  ],
-  "files": [
-    {
-      "name": "ping_tool",
-      "show": "Ping Tool",
-      "link": "https://raw.githubusercontent.com/M4rshe1/tups1s/main/USB/Scripts/ping_tool/ping_stats.ps1",
-      "command": "irm api.heggli.dev/run/ping_tool | iex",
-      "description": "A Powershell script that pings a host and returns the results in a JSON format."
+    "settings": {
+        "log": 1,
+        "log_lvl": 1
     },
-    {
-      "name": "ctt",
-      "show": "CTT Tool",
-      "link": "christitus.com/win",
-      "command": "irm christitus.com/win | iex",
-      "description": "A Powershell script that installs a bunch of useful tools.<strong><br>(Not made by me)<br>Credit to Chris Titus Tech.</strong>"
-    }
-  ]
+    "apis": [
+        {
+            "name": "Ping Graph",
+            "description": "Converts Ping Data to a helpful graph.",
+            "file": "ping_graph",
+            "author": "M4rshe1",
+            "docs": "https://github.com/M4rshe1/tups1s/blob/main/USB/docs/ping_tool.md",
+            "author_link": "https://github.com/M4rshe1",
+            "visible": 1
+        }
+    ],
+    "files": [
+        {
+            "name": "ping_tool",
+            "show": "Ping Tool",
+            "link": "https://raw.githubusercontent.com/M4rshe1/tups1s/main/USB/Scripts/ping_tool/ping_stats.ps1",
+            "command": "irm api.heggli.dev/run/ping_tool | iex",
+            "description": "A Powershell script that pings a host and returns the results in a JSON format.",
+            "docs": "https://github.com/M4rshe1/tups1s/blob/main/USB/docs/ping_tool.md",
+            "author": "M4rshe1",
+            "author_link": "https://github.com/M4rshe1",
+            "visible": 1
+        },
+        {
+            "name": "ctt",
+            "show": "CTT Tool",
+            "link": "christitus.com/win",
+            "command": "irm christitus.com/win | iex",
+            "description": "A Powershell script that installs a bunch of useful tools.<strong><br>(Not made by me)<br>Credit to Chris Titus Tech.</strong>",
+            "docs": "https://christitus.com/ctt",
+            "author": "Chris Titus Tech",
+            "author_link": "https://christitus.com",
+            "visible": 1
+        }
+    ]
 }

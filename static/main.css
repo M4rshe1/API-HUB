@@ -1,6 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Lexend:wght@200&family=Roboto+Mono:wght@400;500&display=swap');
 @import url('https://use.fontawesome.com/releases/v6.1.2/css/all.css');
 @import "colors.css";
+
 * {
     box-sizing: border-box;
     font-family: 'Roboto Mono', monospace;
@@ -19,16 +20,20 @@ html, body {
     padding: 0;
     height: 100%;
 }
+
 a {
     text-decoration: none;
 }
+
 .link {
     color: var(--color-primary);
 
 }
+
 .link:hover {
     color: var(--color-primary-hover);
 }
+
 main {
     flex-grow: 1;
     padding: 20px;
@@ -44,6 +49,7 @@ header {
     grid-template-columns: 1fr 3fr 1fr;
     /*overflow-y: hidden;*/
 }
+
 header a {
     text-decoration: none;
     color: #000;
@@ -51,16 +57,20 @@ header a {
     align-items: center;
     margin-left: 30px;
 }
+
 header h1 {
     text-align: center;
 }
+
 .home-icon {
     color: white;
     scale: 2
 }
+
 .home-icon:hover {
     color: var(--color-text-secondary);
 }
+
 footer {
     width: 100vw;
     display: flex;
@@ -71,17 +81,20 @@ footer {
     /*background-color: var(--color-footer);*/
     /*color: #000;*/
 }
+
 .footer {
-    display:grid;
+    display: grid;
     grid-template-columns: 1fr 2fr;
     width: 100%;
 }
+
 .footer .footer-el {
     display: flex;
     margin: 20px;
     flex-direction: column;
     align-items: flex-start;
 }
+
 h3 {
     color: var(--color-text);
     margin: .5rem 0;
@@ -90,10 +103,12 @@ h3 {
 .footer .footer-el p {
     color: var(--color-text-secondary);
 }
+
 .footer .footer-el .footer-logo {
     height: 60px;
     margin: 10px;
 }
+
 h2 {
     color: var(--color-text-secondary);
     margin: .5rem 0 0 0;
