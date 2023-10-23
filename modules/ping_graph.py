@@ -29,7 +29,7 @@ LOGGING_HEADER = "[PING_GRAPH]"
 #                   function definitions                  #
 # ------------------------------------------------------- #
 
-def gen_graph(data: list, file_path: str, settings: dict, sent_filename: str) -> None:
+def gen_graph(data: list, file_path: str, settings: dict) -> None:
     # print(data)
     start_time = datetime.strptime(data[0]["starttime"], "%Y.%m.%d %H:%M:%S")
     end_time = datetime.strptime(data[-1]["endtime"], "%Y.%m.%d %H:%M:%S")
@@ -132,7 +132,6 @@ def gen_graph(data: list, file_path: str, settings: dict, sent_filename: str) ->
 
     plt.savefig(file_path, format="png")
     plt.close(fig)
-    clean_up(filename=sent_filename)
 
 
 def get_ping_data():
@@ -150,13 +149,12 @@ def get_ping_data():
                 return "No selected file", 400
             # Read the JSON data from the file
             json_data = json.loads(file.read().decode('utf-8-sig'))
+
             # print(json_data)
 
             filename = f"ping_data_{datetime.now().strftime('%Y-%m-%d_%H-%M-%S')}"
-
             # Save the file to the GRAPH_FOLDER
             file.save(os.path.join(GRAPH_FOLDER, filename + ".json"))
-
             # Get the settings from the request
             settings = request.form.to_dict()
             if file:
@@ -164,15 +162,15 @@ def get_ping_data():
                 gen_graph(
                     json_data,
                     os.path.join(GRAPH_FOLDER, filename + ".png"),
-                    settings,
-                    filename
+                    settings
                 )
 
                 # Provide a download link for the generated graph
                 graph_link = f"/{GRAPH_FOLDER}/{filename}.png"
 
                 # redirect to the graph
-                return redirect(graph_link)
+                clean_up(filename=filename)
+                return graph_link
 
         except Exception as e:
             return "<strong>Error: </strong>" + str(e)

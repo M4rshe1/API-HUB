@@ -4,7 +4,7 @@
 # ------------------------------------------------------- #
 import json
 
-from flask import Flask, send_from_directory, render_template
+from flask import Flask, send_from_directory, render_template, redirect, request
 
 # ------------------------------------------------------- #
 #                     module imports                      #
@@ -54,7 +54,11 @@ def upload_file(path: str):
     }
     if path in path_handler:
         handler = path_handler[path]
-        return handler()
+        # print(ping_tool.get_ping_data())
+        # return handler()
+        link = handler
+        print(link)
+        return redirect(link)
     return render_template("error.html", errorcode=404, errordesc="API not found!"), 404
 
 
