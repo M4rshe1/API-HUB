@@ -44,7 +44,8 @@ if $rebuild; then
     echo "Building the Docker image..."
     sudo docker build --no-cache -t apihub .
     echo "Running the new Docker container..."
-    sudo docker run -d -p 6969:6969 -v docker_config:/app/config --restart unless-stopped --name apihub apihub
+    sudo docker run -d -p 6969:6969 --restart unless-stopped --name apihub apihub
+#    sudo docker run -d -p 6969:6969 -v docker_config:/app/config --restart unless-stopped --name apihub apihub
 fi
 if $cleanup; then
     echo "Cleaning up..."
