@@ -26,7 +26,7 @@ fi
 if [ "$rebuild" = true ] || [ "$1" = "-rebuild" ] || [ "$2" = "-rebuild" ]; then
     echo "The Git repository is not up to date."
     echo "Pulling the latest changes..."
-    git pull fetch "$branch"
+    git pull origin "$branch"
     sleep 5
     echo "Building the Docker image..."
     sudo docker build --no-cache -t apihub .
