@@ -11,7 +11,13 @@ COPY . .
 RUN apt update && apt install -y python3 python3-pip
 
 # Install any needed packages specified in requirements.txt
-RUN apt-get update && apt-get install -y python3-pip && pip3 install --trusted-host pypi.python.org -r requirements.txt
+RUN apt-get update && apt-get install -y python3-pip
+
+# Create venv
+RUN python3 -m venv venv
+
+# activate venv and install requirements
+RUN . venv/bin/activate && pip3 install --trusted-host pypi.python.org -r requirements.txt
 
 # Make port 6969 available to the world outside this container
 EXPOSE 6969

@@ -7,8 +7,9 @@ import json
 import os
 from datetime import datetime
 import matplotlib.pyplot as plt
-from flask import redirect, request
+from flask import redirect, request, render_template
 from matplotlib import gridspec
+from modules import logger, config
 
 # ------------------------------------------------------- #
 #                   global variables                      #
@@ -20,6 +21,7 @@ ALLOWED_EXTENSIONS = {'json'}
 KeepJSON = False
 ImageExpire = 60 * 60 * 24
 LOGGING_HEADER = "[PING_GRAPH]"
+LOGGING_LVL = config.load_config("config/config.json")["settings"]["log_lvl"]
 
 
 # Check if the graph folder exists, and create it if not
@@ -136,10 +138,12 @@ def gen_graph(data: list, file_path: str, settings: dict) -> None:
 
 def get_ping_data():
     if request.method == "POST":
+        logger.log(f"Generating graph...", LOGGING_LVL, LOGGING_HEADER, True, lvl=1)
         try:
             if not os.path.exists(GRAPH_FOLDER):
                 os.makedirs(GRAPH_FOLDER)
             if 'file' not in request.files:
+                logger.log(f"Error generating graph! No file part", LOGGING_LVL, LOGGING_HEADER, True, lvl=3)
                 return "No file part", 400
 
             # Get the file from the request
@@ -153,6 +157,7 @@ def get_ping_data():
             # print(json_data)
 
             filename = f"ping_data_{datetime.now().strftime('%Y-%m-%d_%H-%M-%S')}"
+            logger.log(f"Saving JSON file to {GRAPH_FOLDER}/{filename}.json", LOGGING_LVL, LOGGING_HEADER, True, lvl=1)
             # Save the file to the GRAPH_FOLDER
             file.save(os.path.join(GRAPH_FOLDER, filename + ".json"))
             # Get the settings from the request
@@ -167,24 +172,34 @@ def get_ping_data():
 
                 # Provide a download link for the generated graph
                 graph_link = f"/{GRAPH_FOLDER}/{filename}.png"
+                logger.log(f"Graph generated! {graph_link}", LOGGING_LVL, LOGGING_HEADER, True, lvl=1)
 
                 # redirect to the graph
                 clean_up(filename=filename)
-                return graph_link
+                return redirect(graph_link)
 
         except Exception as e:
-            return "<strong>Error: </strong>" + str(e)
+            logger.log(f"Error generating graph! {e}", LOGGING_LVL, LOGGING_HEADER, True, lvl=3)
+            return render_template("error.html", errorcode=405, errordesc="Methode not allowed"), 405
     else:
         return redirect("/")
 
 
-def clean_up( filename: str):
-    if not KeepJSON:
-        os.remove(os.path.join(GRAPH_FOLDER, filename + ".json"))
+def clean_up(filename: str):
+    logger.log(f"Cleaning up files...", LOGGING_LVL, LOGGING_HEADER, True, lvl=1)
+    try:
+        if not KeepJSON:
+            logger.log(f"Removing JSON file...", 0, LOGGING_HEADER, True, lvl=1)
+            os.remove(os.path.join(GRAPH_FOLDER, filename + ".json"))
 
-    for file in os.listdir(GRAPH_FOLDER):
-        if os.path.getmtime(os.path.join(GRAPH_FOLDER, file)) < datetime.now().timestamp() - ImageExpire:
-            os.remove(os.path.join(GRAPH_FOLDER, file))
+        for file in os.listdir(GRAPH_FOLDER):
+            if os.path.getmtime(os.path.join(GRAPH_FOLDER, file)) < datetime.now().timestamp() - ImageExpire:
+                logger.log(f"Removing old image file... {GRAPH_FOLDER + '/' + file}", LOGGING_LVL,
+                           LOGGING_HEADER, True, lvl=1)
+                os.remove(os.path.join(GRAPH_FOLDER, file))
+    except Exception as e:
+        logger.log(f"Error cleaning up files! {e}", LOGGING_LVL, LOGGING_HEADER, True, lvl=3)
+        exit(1)
     return
 
 

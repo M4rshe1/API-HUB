@@ -1,0 +1,19 @@
+{
+  "settings": {
+    "log": 1,
+    "log_lvl": 1
+  },
+  "apis": [
+    {
+      "name": "Ping Graph",
+      "description": "Converts Ping Data to a helpful graph.",
+      "file": "ping_graph"
+    }
+  ],
+  "files": [
+    {
+      "name": "ping_tool",
+      "link": "https://raw.githubusercontent.com/M4rshe1/tups1s/main/USB/Scripts/ping_tool/ping_stats.ps1"
+    }
+  ]
+}

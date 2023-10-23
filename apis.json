@@ -1,7 +1,0 @@
-[
-  {
-    "name": "Ping Graph",
-    "description": "Converts Ping Data to a helpful graph.",
-    "file": "ping_graph"
-  }
-]

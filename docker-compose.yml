@@ -1,14 +1,11 @@
 version: "3.7"
 services:
-  api:
+  apihub:
+    image: apihub
     build:
       context: .
       dockerfile: Dockerfile
     ports:
       - "6969:6969"
     volumes:
-      - ./graphs:/app/graphs
-    environment:
-      - FLASK_ENV=development
-      - FLASK_APP=app.py
-      - FLASK_RUN_HOST=
+      - config:/app/config
