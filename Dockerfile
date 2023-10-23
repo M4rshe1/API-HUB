@@ -8,10 +8,7 @@ WORKDIR /app
 COPY . .
 
 # install newest python and pip
-RUN apt update && apt install -y python3 python3-pip
-
-# Install any needed packages specified in requirements.txt
-RUN apt-get update && apt-get install -y python3-pip
+RUN apt update && apt install -y python3 python3-pip python3-venv
 
 # Create venv
 RUN python3 -m venv venv
