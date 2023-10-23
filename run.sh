@@ -29,7 +29,7 @@ if [ "$rebuild" = true ] || [ "$1" = "-rebuild" ] || [ "$2" = "-rebuild" ]; then
     git pull fetch "$branch"
     sleep 5
     echo "Building the Docker image..."
-    sudo docker build -t apihub .
+    sudo docker build --no-cache -t apihub .
     echo "Deleting the old Docker container..."
     sudo docker rm -f apihub
     echo "Running the new Docker container..."
