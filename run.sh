@@ -5,19 +5,31 @@ branch="main"
 
 # Check if the local branch is behind the remote branch
 
+for arg in "$@"; do
+    # Check if the current argument is equal to the target string
+    if [ "$arg" = "-rebuild" ]; then
+        rebuild=true
+    fi
+    if [ "$arg" = "-logs" ]; then
+        logs=true
+    fi
+    if [ "$arg" = "-cleanup" ]; then
+        cleanup=true
+    fi
+done
+
+
 if git fetch origin "$branch" && [ "$(git rev-list HEAD...origin/"$branch" --count)" -eq 0 ]; then
     echo "The Git repository is up to date."
     # shellcheck disable=SC2162
-    if  "-rebuild" not in sys.argv ||  "-rebuild" not in sys.argv; then
-        rebuild=false
-    else
+    if not $rebuild; then
         rebuild=true
     fi
 else
     rebuild=true
 fi
 
-if [ "$rebuild" = true ] || "-rebuild" in sys.argv; then
+if $rebuild; then
     echo "The Git repository is not up to date."
     echo "Pulling the latest changes..."
     git pull origin "$branch"
@@ -30,12 +42,12 @@ if [ "$rebuild" = true ] || "-rebuild" in sys.argv; then
     echo "Running the new Docker container..."
     sudo docker run -d -p 6969:6969 -v config:/app/config --restart unless-stopped --name apihub apihub
 fi
-if "-logs" in sys.argv ; then
+if $logs ; then
     echo "Showing the logs..."
     sudo docker logs -f apihub
 fi
 
-if "-cleanup" in sys.argv ; then
+if $cleanup; then
     echo "Cleaning up..."
     sudo docker images -a | grep "none" | awk '{print $3}' | xargs sudo docker image rm -f
 fi
