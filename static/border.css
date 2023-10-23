@@ -1,0 +1,7 @@
+.border-1 {
+    background-color: var(--color-background-secondary);
+    border: 6px solid transparent;
+    border-image: var(--linear-gradient) 1;
+    border-image-slice: 1;
+    box-shadow: var(--box-shadow);
+}

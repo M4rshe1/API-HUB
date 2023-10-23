@@ -18,7 +18,7 @@ from matplotlib import gridspec
 GRAPH_FOLDER = "graphs"
 ALLOWED_EXTENSIONS = {'json'}
 KeepJSON = False
-ImageExpire = 60 * 60 * 24 * 7  # 7 days
+ImageExpire = 60 * 60 * 24
 LOGGING_HEADER = "[PING_GRAPH]"
 
 
@@ -29,7 +29,7 @@ LOGGING_HEADER = "[PING_GRAPH]"
 #                   function definitions                  #
 # ------------------------------------------------------- #
 
-def gen_graph(data: list, file_path: str, settings: dict) -> None:
+def gen_graph(data: list, file_path: str, settings: dict, sent_filename: str) -> None:
     # print(data)
     start_time = datetime.strptime(data[0]["starttime"], "%Y.%m.%d %H:%M:%S")
     end_time = datetime.strptime(data[-1]["endtime"], "%Y.%m.%d %H:%M:%S")
@@ -132,7 +132,7 @@ def gen_graph(data: list, file_path: str, settings: dict) -> None:
 
     plt.savefig(file_path, format="png")
     plt.close(fig)
-    # clean_up(file_path)
+    clean_up(filename=sent_filename)
 
 
 def get_ping_data():
@@ -164,7 +164,8 @@ def get_ping_data():
                 gen_graph(
                     json_data,
                     os.path.join(GRAPH_FOLDER, filename + ".png"),
-                    settings
+                    settings,
+                    filename
                 )
 
                 # Provide a download link for the generated graph
@@ -174,20 +175,19 @@ def get_ping_data():
                 return redirect(graph_link)
 
         except Exception as e:
-
             return "<strong>Error: </strong>" + str(e)
     else:
         return redirect("/")
 
 
-# def clean_up(file_path: str):
-#     if not KeepJSON:
-#         os.remove(file_path.split("/")[-1].split(".")[0] + ".json")
-#
-#     for file in os.listdir(GRAPH_FOLDER):
-#         if os.path.getmtime(os.path.join(GRAPH_FOLDER, file)) < datetime.now().timestamp() - ImageExpire:
-#             os.remove(os.path.join(GRAPH_FOLDER, file))
-#     return
+def clean_up( filename: str):
+    if not KeepJSON:
+        os.remove(os.path.join(GRAPH_FOLDER, filename + ".json"))
+
+    for file in os.listdir(GRAPH_FOLDER):
+        if os.path.getmtime(os.path.join(GRAPH_FOLDER, file)) < datetime.now().timestamp() - ImageExpire:
+            os.remove(os.path.join(GRAPH_FOLDER, file))
+    return
 
 
 if __name__ == '__main__':

@@ -1,0 +1,15 @@
+{% extends 'layout.html' %}
+{% block head %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='error.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='border.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='button.css') }}">
+{% endblock head %}
+{% block content %}
+    <div class="error border-1">
+        <h1>{{ errorcode }}</h1>
+        <h2>{{ errordesc }}</h2>
+        <div class="nav-buttons"><a href="/" class="button-36">Home</a><button class="button-36" onclick="history.back()">Back</button></div>
+    </div>
+{% endblock content %}
+
+

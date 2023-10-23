@@ -1,13 +1,16 @@
 {% extends 'layout.html' %}
 {% block head %}
     <link rel="stylesheet" href="{{ url_for('static', filename='index.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='border.css') }}">
 {% endblock head %}
 {% block content %}
 <div class="wrapper">
-    <a href="/ping-graph" class="api_item link">
-        <span class="api_name">Ping Graph</span>
-        <span class="api_description">Converts Ping Data to a helpful graph.</span>
-    </a>
+    {% for api in apis %}
+        <a href="/u/{{ api.file }}" class="api_item link border-1">
+            <span class="api_name">{{ api.name }}</span>
+            <span class="api_description">{{ api.description }}</span>
+        </a>
+    {% endfor %}
 </div>
 {% endblock content %}
 
