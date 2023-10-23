@@ -38,7 +38,7 @@ def index():
 @app.route("/u/<path:path>", methods=["GET"])
 def ping_graph(path: str):
     logger.log(f"Loading api UI using GET methode with path: /u/{path}", LOGGING_LVL, LOGGING_HEADER, LOGGING, lvl=1)
-    for i in config:
+    for i in config["apis"]:
         if path == i["file"]:
             template = f"{path}.html"
             try:
