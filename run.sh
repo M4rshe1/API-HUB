@@ -9,11 +9,15 @@ if git fetch origin "$branch" && [ "$(git rev-list HEAD...origin/"$branch" --cou
     echo "The Git repository is up to date."
     echo "Docker image will not be rebuilt."
     # shellcheck disable=SC2162
-    read -p "Rebuild? (Y/N): " confirm
-    if [[ $confirm == [yY] || $confirm == [yY][eE][sS] ]]; then
-        rebuild=true
+    if not [ "$1" = "rebuild" ]; then
+        read -p "Rebuild? (Y/N): " confirm
+        if [[ $confirm == [yY] || $confirm == [yY][eE][sS] ]]; then
+            rebuild=true
+        else
+            rebuild=false
+        fi
     else
-        rebuild=false
+        rebuild=true
     fi
 else
     rebuild=true
