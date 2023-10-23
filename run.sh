@@ -22,9 +22,10 @@ done
 if git fetch origin "$branch" && [ "$(git rev-list HEAD...origin/"$branch" --count)" -eq 0 ]; then
     echo "The Git repository is up to date."
     # shellcheck disable=SC2162
-    if not $rebuild; then
+    if ! "$rebuild"; then
         rebuild=true
     fi
+
 else
     rebuild=true
 fi
