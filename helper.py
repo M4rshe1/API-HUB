@@ -2,17 +2,27 @@ import json
 from colorama import Fore, Style
 import os
 
+forbidden_names = ["main", "modules", "templates", "config", "helper", "error", "index", "static", "graphs", "logs",
+                   "app", "flask", "matplotlib", "numpy", "pandas", "seaborn", "sklearn", "tensorflow", "keras",
+                   "venv", ]
+
+forbidden_names_create = forbidden_names.copy()
+
 
 def create_api():
     api = {"name": "", "description": "", "file": "", "author": "", "docs": "", "author_link": "", "visible": 1}
 
     print("This script will help you create a new API for the webserver.")
+
     print("The settings can be changed later in the config.json file.")
     print(Fore.RED + "WARNING: " + Style.RESET_ALL + "This script will overwrite files if they already exist!")
 
     print("\n\n")
 
     api["name"] = input("Name of the API: ")
+    if api["name"] in forbidden_names_create:
+        print("This name is already taken!")
+        return
     api["description"] = input("Description of the API: ")
     api["file"] = api["name"].replace(" ", "_").lower()
     api["author"] = input("Author of the API: ")
@@ -82,14 +92,19 @@ def create_api():
             os.remove(f"templates/{api['file']}.html")
             break
 
+
 def create_run_file():
-    files = {"name": "","show": "", "description": "", "link": "", "author": "", "docs": "", "author_link": "", "visible": 1}
+    files = {"name": "", "show": "", "description": "", "link": "", "author": "", "docs": "", "author_link": "",
+             "visible": 1}
     print("This script will help you create a new file for the webserver.")
     print("The settings can be changed later in the config.json file.")
 
     print("\n\n")
 
-    files["show"] = input("Name of the file: ")
+    files["show"] = input("Name of the RUN File: ")
+    if files["show"] in forbidden_names_create:
+        print("This name is already taken!")
+        return
     files["name"] = files["show"].replace(" ", "_").lower()
     files["description"] = input("Description of the file: ")
     files["link"] = input("Link to the file: ")
@@ -107,6 +122,9 @@ def create_run_file():
 def del_api():
     name = input("Name of the API like (ping_graph): ")
     if name == "":
+        return
+    if name in forbidden_names:
+        print("You can't delete this file!")
         return
     with open("config/config.json", "r") as f:
         config_file = json.load(f)
@@ -132,6 +150,9 @@ def del_api():
 def del_run_file():
     name = input("Name of the file like (ping_tool): ")
     if name == "":
+        return
+    if name in forbidden_names:
+        print("You can't delete this file!")
         return
     with open("config/config.json", "r") as f:
         config_file = json.load(f)
@@ -178,6 +199,15 @@ def visible_api():
 
 
 if __name__ == '__main__':
+    with open("config/config.json", "r") as f:
+        config = json.load(f)
+    for i in config["apis"]:
+        forbidden_names_create.append(i["name"])
+        forbidden_names_create.append(i["file"])
+    for i in config["files"]:
+        forbidden_names_create.append(i["show"])
+        forbidden_names_create.append(i["name"])
+
     print("What do you want to do?")
     print("   Create a new API------------------[1]")
     print("   Delete an API---------------------[2]")
@@ -199,4 +229,3 @@ if __name__ == '__main__':
         visible_api()
     elif choice == "6":
         visible_run_file()
-

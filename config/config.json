@@ -19,7 +19,7 @@
             "name": "ping_tool",
             "show": "Ping Tool",
             "link": "https://raw.githubusercontent.com/M4rshe1/tups1s/main/USB/Scripts/ping_tool/ping_stats.ps1",
-            "command": "irm api.heggli.dev/run/ping_tool | iex",
+            "command": "irm api.heggli.dev/ping_tool | iex",
             "description": "A Powershell script that pings a host and returns the results in a JSON format.",
             "docs": "https://github.com/M4rshe1/tups1s/blob/main/USB/docs/ping_tool.md",
             "author": "M4rshe1",

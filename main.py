@@ -71,13 +71,13 @@ def send_graph(path: str):
     return send_from_directory(ping_tool.GRAPH_FOLDER, path)
 
 
-@app.route("/run/<path:path>", methods=["GET"])
+@app.route("/<path:path>", methods=["GET"])
 def send_ps1(path: str):
-    logger.log(f"Loading ps1 via GET with path: /run/{path}", LOGGING_LVL, LOGGING_HEADER, LOGGING, lvl=0)
+    logger.log(f"Loading ps1 via GET with path: /{path}", LOGGING_LVL, LOGGING_HEADER, LOGGING, lvl=0)
     for i in config.load_config("config/config.json")["files"]:
         if path == i["name"]:
             return redirect(i["link"])
-    return render_template("error.html", errorcode=404, errordesc="API not found!"), 404
+    return render_template("error.html", errorcode=404, errordesc="RUN file not found!"), 404
 
 
 @app.errorhandler(404)
