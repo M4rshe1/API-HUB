@@ -27,6 +27,7 @@ for arg in "$@"; do
     if [ "$arg" = "-drop" ]; then
         drop=true
     fi
+    echo "$arg"
 done
 
 if $drop -eq true; then
@@ -39,10 +40,6 @@ fi
 
 if [ "$(git rev-list HEAD...origin/"$branch" --count)" -eq 0 ]; then
     echo "The Git repository is up to date."
-    # shellcheck disable=SC2162
-    if $rebuild -eq false; then
-        rebuild=false
-    fi
 else
     echo "The Git repository is not up to date."
     rebuild=true
