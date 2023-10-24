@@ -23,6 +23,12 @@
 .nav-buttons {
     display: flex;
     flex-direction: row;
-    justify-content: space-around;
+    justify-content: center;
     width: 100%;
+}
+.nav-buttons a, .nav-buttons button {
+    margin: 0 20px !important;
+}
+.error h2 {
+    margin-bottom: 30px;
 }

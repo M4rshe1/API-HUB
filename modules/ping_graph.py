@@ -20,6 +20,8 @@ ALLOWED_EXTENSIONS = {'json'}
 KeepJSON = False
 ImageExpire = 60 * 60 * 24
 LOGGING_HEADER = "[PING_GRAPH]"
+
+
 # LOGGING_LVL = config_load_config("config.json")["settings"]["log_lvl"]
 
 
@@ -32,6 +34,7 @@ LOGGING_HEADER = "[PING_GRAPH]"
 
 def gen_graph(data: list, file_path: str, settings: dict) -> None:
     # print(data)
+    global ax2
     start_time = datetime.strptime(data[0]["starttime"], "%Y.%m.%d %H:%M:%S")
     end_time = datetime.strptime(data[-1]["endtime"], "%Y.%m.%d %H:%M:%S")
     time_diff = end_time - start_time
@@ -55,8 +58,7 @@ def gen_graph(data: list, file_path: str, settings: dict) -> None:
     gs = gridspec.GridSpec(2, 1, height_ratios=[3, 1])  # Adjust the height ratio
     ax1 = plt.subplot(gs[0])  # Subplot for the graph
 
-    if (settings.get("show_table") is not None and settings.get("show_table") == "true" or
-            settings.get("show_table") == "on"):
+    if settings.get("show_table") is None:
         ax2 = plt.subplot(gs[1])  # Subplot for the table
     # ax2.set_visible(False)
 
@@ -117,8 +119,8 @@ def gen_graph(data: list, file_path: str, settings: dict) -> None:
     ax1.set_title('Ping Results')
     ax1.legend()
     ax1.grid()
-    if (settings.get("show_table") is not None and settings.get("show_table") == "true" or
-            settings.get("show_table") == "on"):
+
+    if settings.get("show_table") is None:
         # # Create a table on the second subplot (ax2)
         table_data = list(table_data.items())  # Convert the data to a list
         table = ax2.table(cellText=table_data, loc='bottom', cellLoc='left', colWidths=[0.2, 0.3])
@@ -131,6 +133,7 @@ def gen_graph(data: list, file_path: str, settings: dict) -> None:
             cell = table.get_celld()[(i, 0)]
             cell.set_facecolor('lightgray')
 
+
     plt.savefig(file_path, format="png")
     plt.close(fig)
 
@@ -138,12 +141,22 @@ def gen_graph(data: list, file_path: str, settings: dict) -> None:
 def start_point():
     if request.method == "POST":
         # logger.log(f"Generating graph...", LOGGING_LVL, LOGGING_HEADER, True, lvl=1)
+        print("wefwefwef")
+        print(request.files['file'])
+        print("wefwefwef")
+
         try:
             if not os.path.exists(GRAPH_FOLDER):
                 os.makedirs(GRAPH_FOLDER)
+            # convert request to string and print it
+            # print(request.form.to_dict())
+
             if 'file' not in request.files:
                 # logger.log(f"Error generating graph! No file part", LOGGING_LVL, LOGGING_HEADER, True, lvl=3)
                 return "No file part", 400
+
+            # read body of request
+            print(request.data)
 
             # Get the file from the request
             file = request.files['file']
@@ -178,6 +191,7 @@ def start_point():
                 return send_from_directory(GRAPH_FOLDER, filename + ".png", as_attachment=True)
 
         except Exception as e:
+            # print(e)
             # logger.log(f"Error generating graph! {e}", LOGGING_LVL, LOGGING_HEADER, True, lvl=3)
             return render_template("error.html", errorcode=405, errordesc="Methode not allowed"), 405
     else:

@@ -9,6 +9,12 @@ forbidden_names = ["main", "modules", "templates", "config", "helper", "error", 
 forbidden_names_create = forbidden_names.copy()
 
 
+# ------------------------------------------------------- #
+#                     API functions                       #
+# ------------------------------------------------------- #
+
+# --------------- create api ----------------- #
+
 def create_api():
     api = {"name": "", "description": "", "file": "", "author": "", "docs": "", "author_link": "", "visible": 1}
 
@@ -84,50 +90,25 @@ def create_api():
         f.write(f"from .{api['file']} import start_point as {api['file']}_start\n")
 
 
-def create_run_file():
-    files = {"name": "", "show": "", "description": "", "link": "", "author": "", "docs": "", "author_link": "",
-             "visible": 1, "command": ""}
-    print("This script will help you create a new file for the webserver.")
-    print("The settings can be changed later in the config.json file.")
-
-    print("\n\n")
-
-    files["show"] = input("Name of the RUN File: ")
-    if files["show"] in forbidden_names_create:
-        print("This name is already taken!")
+# ---------- toggle visibility of api ------------ #
+def visible_api():
+    name = input("Name of the API like (ping_graph): ")
+    if name == "":
         return
-    files["name"] = files["show"].replace(" ", "_").lower()
-    files["description"] = input("Description of the file: ")
-    files["link"] = input("Link to the file: ")
-    files["author"] = input("Author of the file: ")
-    files["author_link"] = input("Link to the author of the file: ")
-    files["docs"] = input("Documentation link of the file: ")
-    files["command"] = f"irm api.heggli.dev/{files['name']} | iex"
-
-    with open(f"config.json", "r") as f:
+    with open("config.json", "r") as f:
         config_file = json.load(f)
-        config_file["files"].append(files)
-        with open("config.json", "w") as w_file:
-            json.dump(config_file, w_file, indent=4)
-
-    with (open("run.ps1", "r") as f):
-        lines = f.readlines()
-        for i in range(len(lines)):
-            if f"Switch ($select)" in lines[i]:
-                name = files["name"]
-                lines[i + 1] = f"{'{'}" + '\n  (\"' + files["show"] + '\") ' + (
-                        f"{'{'}" + f"\nWrite-Host 'Starting {files['show']}...'\nirm api.heggli.dev/{name} | iex\n" +
-                        f"{'}'}\n")
-
-        for i in range(len(lines)):
-            if lines[i].startswith("#"):
-                lines[i] = "Write-Host '    " + files["show"] + " as [" + files["name"] + " ]'\n" + lines[i]
+        for i in config_file["apis"]:
+            if i["file"] == name:
+                if i["visible"] == 1:
+                    i["visible"] = 0
+                else:
+                    i["visible"] = 1
+                with open("config.json", "w") as w_file:
+                    json.dump(config_file, w_file, indent=4)
                 break
 
-        with open("run.ps1", "w") as w_file:
-            w_file.writelines(lines)
 
-
+# --------------- delete api ----------------- #
 def del_api():
     name = input("Name of the API like (ping_graph): ")
     if name == "":
@@ -180,6 +161,57 @@ def del_api():
             break
 
 
+# ------------------------------------------------------- #
+#                   Run file functions                    #
+# ------------------------------------------------------- #
+
+# --------------- create run file ----------------- #
+def create_run_file():
+    files = {"name": "", "show": "", "description": "", "link": "", "author": "", "docs": "", "author_link": "",
+             "visible": 1, "command": ""}
+    print("This script will help you create a new file for the webserver.")
+    print("The settings can be changed later in the config.json file.")
+
+    print("\n\n")
+
+    files["show"] = input("Name of the RUN File: ")
+    if files["show"] in forbidden_names_create:
+        print("This name is already taken!")
+        return
+    files["name"] = files["show"].replace(" ", "_").lower()
+    files["description"] = input("Description of the file: ")
+    files["link"] = input("Link to the file: ")
+    files["author"] = input("Author of the file: ")
+    files["author_link"] = input("Link to the author of the file: ")
+    files["docs"] = input("Documentation link of the file: ")
+    files["command"] = f"irm api.heggli.dev/{files['name']} | iex"
+
+    with open(f"config.json", "r") as f:
+        config_file = json.load(f)
+        config_file["files"].append(files)
+        with open("config.json", "w") as w_file:
+            json.dump(config_file, w_file, indent=4)
+
+    with (open("runfiles/all.ps1", "r") as f):
+        lines = f.readlines()
+        for i in range(len(lines)):
+            if f"Switch ($select)" in lines[i]:
+                name = files["name"]
+                lines[i + 1] = f"{'{'}" + '\n  (\"' + files["show"] + '\") ' + (
+                        f"{'{'}" + f"\nWrite-Host 'Starting {files['show']}...'\nirm api.heggli.dev/{name} | iex\n" +
+                        f"{'}'}\n")
+
+        for i in range(len(lines)):
+            if lines[i].startswith("#"):
+                lines[i] = "Write-Host '    " + files["show"] + " as [" + files["name"] + " ]'\n" + lines[i]
+                break
+
+        with open("runfiles/all.ps1", "w") as w_file:
+            w_file.writelines(lines)
+
+
+# --------------- delete run file ----------------- #
+
 def del_run_file():
     name = input("Name of the file like (ping_tool): ")
     if name == "":
@@ -196,7 +228,7 @@ def del_run_file():
                     json.dump(config_file, w_file, indent=4)
                 break
 
-    with open("run.ps1", "r") as f:
+    with open("runfiles/all.ps1", "r") as f:
         lines = f.readlines()
         for i in range(len(lines)):
             if f" as [{name}]" in lines[i]:
@@ -212,9 +244,11 @@ def del_run_file():
                 lines[i + 2] = ""
                 lines[i + 3] = ""
                 break
-        with open("run.ps1", "w") as w_file:
+        with open("runfiles/all.ps1", "w") as w_file:
             w_file.writelines(lines)
 
+
+# ---------- toggle visibility of run file ------------ #
 
 def visible_run_file():
     name = input("Name of the file like (ping_tool): ")
@@ -233,21 +267,9 @@ def visible_run_file():
                 break
 
 
-def visible_api():
-    name = input("Name of the API like (ping_graph): ")
-    if name == "":
-        return
-    with open("config.json", "r") as f:
-        config_file = json.load(f)
-        for i in config_file["apis"]:
-            if i["file"] == name:
-                if i["visible"] == 1:
-                    i["visible"] = 0
-                else:
-                    i["visible"] = 1
-                with open("config.json", "w") as w_file:
-                    json.dump(config_file, w_file, indent=4)
-                break
+# ------------------------------------------------------- #
+#                      Main function                      #
+# ------------------------------------------------------- #
 
 
 if __name__ == '__main__':
@@ -259,7 +281,14 @@ if __name__ == '__main__':
     for k in config["files"]:
         forbidden_names_create.append(k["show"])
         forbidden_names_create.append(k["name"])
-
+        print("  _          _")
+        print(" | |        | |")
+        print(" | |__   ___| |_ __   ___ _ __ ___")
+        print(" | '_ \ / _ \ | '_ \ / _ \ '__/ __|")
+        print(" | | | |  __/ | |_) |  __/ |  \__ \ ")
+        print(" |_| |_|\___|_| .__/ \___|_|  |___/")
+        print("               | |")
+        print("               |_|")
     print("What do you want to do?")
     print("   Create a new API------------------[1]")
     print("   Delete an API---------------------[2]")

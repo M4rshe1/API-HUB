@@ -41,7 +41,7 @@
             "name": "all",
             "show": "All Tools",
             "description": "This file will start a Powershell file with an overview of all RUN files on the API HUB.",
-            "link": "https://raw.githubusercontent.com/M4rshe1/API-HUB/main/run.ps1",
+            "link": "https://raw.githubusercontent.com/M4rshe1/API-HUB/main/runfiles/all.ps1",
             "author": "M4rshe1",
             "command": "irm api.heggli.dev/all | iex",
             "docs": "https://github.com/M4rshe1/API-HUB",
