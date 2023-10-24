@@ -5,6 +5,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+    container_name: apihub
     ports:
       - "6969:6969"
     volumes:
