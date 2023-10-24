@@ -1,7 +1,6 @@
-function copyCommand(textToCopy) {
+function copyCommand(textToCopy, element) {
     const textArea = document.createElement('textarea');
     textArea.value = textToCopy;
-
     document.body.appendChild(textArea);
 
     textArea.select();
@@ -13,25 +12,16 @@ function copyCommand(textToCopy) {
     if (document.queryCommandSupported('copy')) {
         // console.log('Copied')
         let command = ""
-        let target = $(event.target)
+        let target = $(element)
         // console.log(target)
         // console.log(target.attr("class"))
-        if (target.attr("class").includes('link')) {
-            command = target.find('span.command').text()
-            target.find('span.command').text('Copied!')
-        } else {
-            command = target.parent().find('span.command').text()
-            target.parent().find('span.command').text('Copied!')
-        }
+
+        command = target.find('span.command').text()
+        target.find('span.command').text('Copied!')
 
         setTimeout(() => {
-            if (target.attr("class").includes('link')) {
-                target.find('span.command').text(command)
-            }
-            else {
-                target.parent().find('span.command').text(command)
-            }
-        }, 2000)
+            target.find('span.command').text(command)
+        }, 500)
     } else {
         // console.log('Oops, unable to copy');
     }

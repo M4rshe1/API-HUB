@@ -21,7 +21,7 @@
     <div class="wrapper">
         {% for file in files if file.visible == 1 %}
             <a class="api_item border-1 files_item" title="Click to copy command"
-               onclick="copyCommand('{{ file.command }}')">
+               onclick="copyCommand('{{ file.command }}', this)">
                 <span class="file_name">{{ file.show|safe }}</span>
                 <span class="command">{{ file.command|safe }}</span>
                 <span class="file_description">{{ file.description|safe }}</span>

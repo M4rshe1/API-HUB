@@ -95,7 +95,7 @@ def create_api():
 
 def create_run_file():
     files = {"name": "", "show": "", "description": "", "link": "", "author": "", "docs": "", "author_link": "",
-             "visible": 1}
+             "visible": 1, "command": ""}
     print("This script will help you create a new file for the webserver.")
     print("The settings can be changed later in the config.json file.")
 
@@ -111,6 +111,7 @@ def create_run_file():
     files["author"] = input("Author of the file: ")
     files["author_link"] = input("Link to the author of the file: ")
     files["docs"] = input("Documentation link of the file: ")
+    files["command"] = f"irm api.heggli.dev/{files['name']} | iex"
 
     with open(f"config.json", "r") as f:
         config_file = json.load(f)
