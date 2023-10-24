@@ -8,4 +8,6 @@ services:
     ports:
       - "6969:6969"
     volumes:
-      - config:/app/config
+      - "${PWD}"/docker_conf/config.json:/app/config.json
+      - "${PWD}"/docker_conf/graphs:/app/graphs
+    restart: unless-stopped
