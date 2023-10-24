@@ -27,6 +27,9 @@ if git fetch origin "$branch" && [ "$(git rev-list HEAD...origin/"$branch" --cou
     # shellcheck disable=SC2162
     if ! "$rebuild"; then
         rebuild=true
+    else
+        echo "No rebuild required."
+        rebuild=false
     fi
 
 else
