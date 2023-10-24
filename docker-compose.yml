@@ -10,5 +10,5 @@ services:
       - "6969:6969"
     volumes:
       - /home/administrator/docker/apihub/API-HUB/docker_conf/config.json:/app/config.json
-      - /home/administrator/docker/apihub/API-HUB/docker_conf/graphs:/app/graphs
+#      - /home/administrator/docker/apihub/API-HUB/docker_conf/graphs:/app/graphs
     restart: unless-stopped
