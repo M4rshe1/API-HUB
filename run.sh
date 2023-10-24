@@ -9,6 +9,7 @@ logs=false
 cleanup=false
 restart=false
 drop=false
+nocache=false
 
 for arg in "$@"; do
     # Check if the current argument is equal to the target string
@@ -27,7 +28,9 @@ for arg in "$@"; do
     if [ "$arg" = "-drop" ]; then
         drop=true
     fi
-    echo "$arg"
+    if [ "$arg" = "-nocache" ]; then
+        nocache=true
+    fi
 done
 
 if $drop -eq true; then
@@ -58,27 +61,27 @@ if $rebuild -eq true; then
 #    sudo docker run -d -p 6969:6969 --restart unless-stopped --name apihub apihub
     mkdir -p "${PWD}"/docker_conf
     cp "${PWD}"/config.json "${PWD}"/docker_conf/config.json
-    sudo docker-compose up -d --force-recreate --build
+    echo "Running the new Docker container..."
+    if $nocache -eq true; then
+        sudo docker-compose up -d --force-recreate --build --no-cache
+    else
+        sudo docker-compose up -d --force-recreate --build
+    fi
 #    sudo docker run -d -p 6969:6969 -v "${PWD}"/docker_conf/config.json:/app/config.json --restart unless-stopped --name apihub apihub
 fi
-
-if $restart -eq true; then
-    echo "Restarting the Docker container..."
-    sudo docker restart apihub
-fi
-
 
 if $cleanup -eq true; then
     echo "Cleaning up..."
     sudo docker images -a | grep "none" | awk '{print $3}' | xargs sudo docker image rm -f
+fi
+if $restart -eq true; then
+    echo "Restarting the Docker container..."
+    sudo docker restart apihub
 fi
 if $logs -eq true; then
     echo "Showing the logs..."
     sudo docker logs -f apihub
 fi
 
-if $restart -eq true && $rebuild -eq false && $logs -eq false && $cleanup -eq false; then
-        sudo docker-compose up -d --force-recreate
-fi
 
 echo "Done."
