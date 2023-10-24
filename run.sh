@@ -7,7 +7,6 @@ branch="main"
 rebuild=false
 logs=false
 cleanup=false
-pull=false
 restart=false
 drop=false
 
@@ -21,9 +20,6 @@ for arg in "$@"; do
     fi
     if [ "$arg" = "-cleanup" ]; then
         cleanup=true
-    fi
-    if [ "$arg" = "-pull" ]; then
-        pull=true
     fi
     if [ "$arg" = "-restart" ]; then
         restart=true
@@ -44,17 +40,17 @@ fi
 if [ "$(git rev-list HEAD...origin/"$branch" --count)" -eq 0 ]; then
     echo "The Git repository is up to date."
     # shellcheck disable=SC2162
-    rebuild=true
+    if $rebuild -eq false; then
+        rebuild=false
+    fi
 else
     echo "The Git repository is not up to date."
     rebuild=true
 fi
 
 if $rebuild -eq true; then
-    if $pull -eq true; then
-        echo "Pulling the latest changes..."
-        git pull origin "$branch"
-    fi
+    echo "Pulling the latest changes..."
+    git pull origin "$branch"
     echo "Deleting the old Docker container..."
     sudo docker rm -f apihub
     echo "Deleting the old Docker image..."
