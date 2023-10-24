@@ -7,8 +7,8 @@ from flask import Flask, send_from_directory, render_template, redirect
 # ------------------------------------------------------- #
 #                     module imports                      #
 # ------------------------------------------------------- #
-import modules.ping_graph as ping_tool
-from modules import logger, config
+import modules.ping_graph as ping_graph
+from modules import config, logger, ping_graph
 
 # ------------------------------------------------------- #
 #                       variables                         #
@@ -53,7 +53,7 @@ def ping_graph(path: str):
 def upload_file(path: str):
     logger.log(f"Loading api UI using POST methode with path: /i/{path}", LOGGING_LVL, LOGGING_HEADER, LOGGING, lvl=1)
     path_handler = {
-        "ping_graph": ping_tool.get_ping_data()
+        "ping_graph": ping_graph.get_ping_data()
 
     }
     if path in path_handler:
@@ -68,7 +68,7 @@ def upload_file(path: str):
 @app.route("/graphs/<path:path>", methods=["GET"])
 def send_graph(path: str):
     logger.log(f"Loading graph via GET with path: /graph/{path}", LOGGING_LVL, LOGGING_HEADER, LOGGING, lvl=0)
-    return send_from_directory(ping_tool.GRAPH_FOLDER, path)
+    return send_from_directory(ping_graph.GRAPH_FOLDER, path)
 
 
 @app.route("/<path:path>", methods=["GET"])

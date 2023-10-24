@@ -75,7 +75,7 @@ def create_api():
         for i in range(len(lines)):
             if "path_handler = {" in lines[i]:
                 print("Found path_handler dict!")
-                lines[i] += f"        \"{api['file']}\": {api['file']}.start_point(),\n"
+                lines[i] += f"        \"{api['file']}\": md.{api['file']}.start_point(),\n"
                 break
         with open("main.py", "w") as f:
             f.writelines(lines)
@@ -118,6 +118,22 @@ def create_run_file():
         with open("config.json", "w") as f:
             json.dump(config_file, f, indent=4)
 
+    with (open("run.ps1", "r") as f):
+        lines = f.readlines()
+        for i in range(len(lines)):
+            if f"Switch ($select)" in lines[i]:
+                name = files["name"]
+                lines[i + 1] = f"{'{'}" + '\n  (\"' + files["show"] + '\") ' + (f"{'{'}" +
+                f"\nWrite-Host 'Starting {files['show']}...'\nirm api.heggli.dev/{name} | iex\n" + f"{'}'}\n")
+
+        for i in range(len(lines)):
+            if lines[i].startswith("#"):
+                lines[i] = "Write-Host '    " + files["show"] + " as [" + files["name"] + " ]'\n" + lines[i]
+                break
+
+        with open("run.ps1", "w") as f:
+            f.writelines(lines)
+
 
 def del_api():
     name = input("Name of the API like (ping_graph): ")
@@ -139,7 +155,7 @@ def del_api():
         # update the path_handler dict in main.py
         lines = f.readlines()
         for i in range(len(lines)):
-            if f"\"{name}\": {name}.start_point()," in lines[i]:
+            if f"\"{name}\": md.{name}.start_point()," in lines[i]:
                 print("Found path_handler dict!")
                 lines[i] = ""
                 break
@@ -162,6 +178,25 @@ def del_run_file():
                 with open("config.json", "w") as f:
                     json.dump(config_file, f, indent=4)
                 break
+
+    with open("run.ps1", "r") as f:
+        lines = f.readlines()
+        for i in range(len(lines)):
+            if f" as [{name}]" in lines[i]:
+                print("Found run file!")
+                lines[i] = ""
+                break
+
+        for i in range(len(lines)):
+            if f"(\"{name}\")" in lines[i]:
+                print("Found run file!")
+                lines[i] = ""
+                lines[i + 1] = ""
+                lines[i + 2] = ""
+                lines[i + 3] = ""
+                break
+        with open("run.ps1", "w") as f:
+            f.writelines(lines)
 
 
 def visible_run_file():

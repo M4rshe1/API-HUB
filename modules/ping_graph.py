@@ -9,7 +9,7 @@ from datetime import datetime
 import matplotlib.pyplot as plt
 from flask import redirect, request, render_template
 from matplotlib import gridspec
-from modules import logger, config
+from modules import config, logger
 
 # ------------------------------------------------------- #
 #                   global variables                      #

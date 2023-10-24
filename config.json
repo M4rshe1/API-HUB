@@ -16,10 +16,10 @@
     ],
     "files": [
         {
-            "name": "ping_tool",
+            "name": "ping",
             "show": "Ping Tool",
             "link": "https://raw.githubusercontent.com/M4rshe1/tups1s/main/USB/Scripts/ping_tool/ping_stats.ps1",
-            "command": "irm api.heggli.dev/ping_tool | iex",
+            "command": "irm api.heggli.dev/ping | iex",
             "description": "A Powershell script that pings a host and returns the results in a JSON format.",
             "docs": "https://github.com/M4rshe1/tups1s/blob/main/USB/docs/ping_tool.md",
             "author": "M4rshe1",
@@ -35,6 +35,16 @@
             "docs": "https://github.com/ChrisTitusTech/winutil",
             "author": "Chris Titus Tech",
             "author_link": "https://christitus.com",
+            "visible": 1
+        },
+        {
+            "name": "all_tools",
+            "show": "All Tools",
+            "description": "This file will start a Powershell file with an overview of all RUN files on the API HUB.",
+            "link": "https://raw.githubusercontent.com/M4rshe1/API-HUB/run.ps1",
+            "author": "M4rshe1",
+            "docs": "https://github.com/M4rshe1/API-HUB",
+            "author_link": "https://github.com/M4rshe1",
             "visible": 1
         }
     ]
