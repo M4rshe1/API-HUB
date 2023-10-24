@@ -17,7 +17,7 @@ RUN python3 -m venv venv
 RUN . venv/bin/activate && pip3 install --trusted-host pypi.python.org -r requirements.txt
 
 ## install uwsgi
-#RUN apt install -y uwsgi uwsgi-plugin-python3
+# RUN apt install -y uwsgi uwsgi-plugin-python3
 
 # Copy the current directory contents into the container at /app
 COPY . .
@@ -27,5 +27,5 @@ EXPOSE 6969
 
 # Run app.py when the container launches
 #CMD ["uwsgi", "--ini", "uwsgi.ini"]
-CMD ["python3", "app.py"]
+CMD ["/bin/bash", "-c", "source venv/bin/activate && python3 app.py"]
 

@@ -2,7 +2,7 @@
 # ------------------------------------------------------- #
 #                       imports                           #
 # ------------------------------------------------------- #
-from flask import Flask, send_from_directory, render_template, redirect
+from flask import Flask, render_template, redirect
 
 # ------------------------------------------------------- #
 #                     module imports                      #
