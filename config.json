@@ -38,7 +38,7 @@
             "visible": 1
         },
         {
-            "name": "all_tools",
+            "name": "all",
             "show": "All Tools",
             "description": "This file will start a Powershell file with an overview of all RUN files on the API HUB.",
             "link": "https://raw.githubusercontent.com/M4rshe1/API-HUB/run.ps1",

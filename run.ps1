@@ -1,5 +1,6 @@
 function main()
 {
+    Clear-Host
     Write-Host "
  _____  _    _ _   _   ______ _ _
  |  __ \| |  | | \ | | |  ____(_) |
@@ -15,19 +16,16 @@ function main()
     Write-Host "    All Tools           [all]"
     Write-Host "    Ping Tool           [ping]"
     Write-Host "    CTT Tool            [ctt]"
-Write-Host '    All Tools as [all_tools ]'
-Write-Host '    All Tools as [all_tools ]'
-Write-Host '    All Tools as [all_tools ]'
-#
+    #
 }
 $select = Read-Host ">> ".lower()
 
 Switch ($select)
 {
-  ("All Tools") {
-Write-Host 'Starting All Tools...'
-irm api.heggli.dev/all_tools | iex
-}   ("ping") {
+    ("All Tools") {
+        Write-Host 'Starting All Tools...'
+        irm api.heggli.dev/all_tools | iex
+    }   ("ping") {
         Write-Host "Starting Ping Tool..."
         irm api.heggli.dev/ping | iex
     }
