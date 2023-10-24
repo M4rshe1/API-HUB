@@ -34,15 +34,15 @@ $select = (Read-Host ">> ").ToLower()
 switch ($select) {
     ("all") {
         Write-Host 'Starting All Tools...'
-        irm 'https://example.com/all_tools.ps1' | iex
+        irm 'api.heggli.dev/all' | iex
     }
     ("ping") {
         Write-Host "Starting Ping Tool..."
-        irm 'https://example.com/ping_tool.ps1' | iex
+        irm 'api.heggli.dev/ping' | iex
     }
     ("ctt") {
         Write-Host "Starting CTT Tool..."
-        irm 'https://example.com/ctt_tool.ps1' | iex
+        irm 'irm christitus.com/win | iex"' | iex
     }
     default {
         Write-Host "Invalid selection. Please choose 'all', 'ping', or 'ctt'."
