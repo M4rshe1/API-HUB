@@ -2,7 +2,7 @@
 # ------------------------------------------------------- #
 #                       imports                           #
 # ------------------------------------------------------- #
-from flask import Flask, render_template, redirect
+from flask import Flask, render_template, redirect, request
 
 # ------------------------------------------------------- #
 #                     module imports                      #
@@ -30,6 +30,9 @@ logging_levels = ["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"]
 
 @app.route("/", methods=["GET"])
 def index():
+    print(request.base_url)
+    if request.base_url == "http://ping.heggli.dev/":
+        return redirect("/ping")
     file = config_load_config("config.json")
     # logger.log("Loading index page...", LOGGING_LVL, LOGGING_HEADER, LOGGING, lvl=1)
     return render_template("index.html", apis=file["apis"], files=file["files"])
