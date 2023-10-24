@@ -44,11 +44,7 @@ fi
 if [ "$(git rev-list HEAD...origin/"$branch" --count)" -eq 0 ]; then
     echo "The Git repository is up to date."
     # shellcheck disable=SC2162
-    if ! "$rebuild"; then
-        rebuild=true
-    else
-        rebuild=false
-    fi
+    rebuild=true
 else
     echo "The Git repository is not up to date."
     rebuild=true
