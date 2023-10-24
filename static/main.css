@@ -80,6 +80,7 @@ footer {
     flex-direction: column;
     /*background-color: var(--color-footer);*/
     /*color: #000;*/
+    margin-top: 200px;
 }
 
 .footer {
