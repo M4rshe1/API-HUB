@@ -45,6 +45,13 @@ if [ "$(git rev-list HEAD...origin/"$branch" --count)" -eq 0 ]; then
     echo "The Git repository is up to date."
 else
     echo "The Git repository is not up to date."
+    if $drop -eq true; then
+        echo "Drop unversioned files..."
+        git clean -f -d
+        echo "Drop umcommited changes..."
+        git reset --hard
+    fi
+    sudo git fetch origin "$branch"
     rebuild=true
 fi
 
