@@ -52,13 +52,13 @@ if $rebuild -eq true; then
     sudo docker rm -f apihub
     echo "Deleting the old Docker image..."
     sudo docker images rmi --force apihub
-    echo "Building the Docker image..."
-    sudo docker build --no-cache -t apihub .
-    echo "Running the new Docker container..."
+#    echo "Building the Docker image..."
+#    sudo docker build --no-cache -t apihub .
+#    echo "Running the new Docker container..."
 #    sudo docker run -d -p 6969:6969 --restart unless-stopped --name apihub apihub
     mkdir -p "${PWD}"/docker_conf
     cp "${PWD}"/config.json "${PWD}"/docker_conf/config.json
-    sudo docker-compose up -d
+    sudo docker-compose up -d --force-recreate --build
 #    sudo docker run -d -p 6969:6969 -v "${PWD}"/docker_conf/config.json:/app/config.json --restart unless-stopped --name apihub apihub
 fi
 
@@ -77,5 +77,8 @@ if $logs -eq true; then
     sudo docker logs -f apihub
 fi
 
+if $restart -eq true && $rebuild -eq false && $logs -eq false && $cleanup -eq false; then
+        sudo docker-compose up -d --force-recreate
+fi
 
 echo "Done."
