@@ -45,8 +45,8 @@ def create_api():
         f.write(f"#                       variables                         #\n")
         f.write(f"# ------------------------------------------------------- #\n")
         f.write(f"LOGGING_HEADER = '[{api['file'].upper()}]'\n")
-        f.write(f"LOGGING = config.load_config('config.json')['settings']['log']\n")
-        f.write(f"LOGGING_LVL = config.load_config('config.json')['settings']['log_lvl']\n")
+        f.write(f"LOGGING = config_load_config('config.json')['settings']['log']\n")
+        f.write(f"LOGGING_LVL = config_load_config('config.json')['settings']['log_lvl']\n")
         f.write(f"# ------------------------------------------------------- #\n")
         f.write(f"#                   function definitions                  #\n")
         f.write(f"# ------------------------------------------------------- #\n")
@@ -56,7 +56,7 @@ def create_api():
         f.write("# The function start_point() will be called when the API is loaded.\n")
         f.write("# The relative path to the API is /u/" + api["file"] + "\n")
         f.write(f"def start_point():\n")
-        f.write(f"    logger.log(f'Loading api {api['file']}...', LOGGING_LVL, LOGGING_HEADER, LOGGING, lvl=1)\n")
+        f.write(f"    # logger.log(f'Loading api {api['file']}...', LOGGING_LVL, LOGGING_HEADER, LOGGING, lvl=1)\n")
         f.write(f"    return\n")
 
     with open(f"templates/{api['file']}.html", "w") as f:
@@ -66,8 +66,8 @@ def create_api():
     with open("config.json", "r") as f:
         config_file = json.load(f)
         config_file["apis"].append(api)
-        with open("config.json", "w") as f:
-            json.dump(config_file, f, indent=4)
+        with open("config.json", "w") as w_file:
+            json.dump(config_file, w_file, indent=4)
 
     with open("main.py", "r") as f:
         # update the path_handler dict in main.py
@@ -75,22 +75,13 @@ def create_api():
         for i in range(len(lines)):
             if "path_handler = {" in lines[i]:
                 print("Found path_handler dict!")
-                lines[i] += f"        \"{api['file']}\": md.{api['file']}.start_point(),\n"
+                lines[i] += f"        \"{api['file']}\": {api['file']}_start,\n"
                 break
-        with open("main.py", "w") as f:
-            f.writelines(lines)
+        with open("main.py", "w") as w_file:
+            w_file.writelines(lines)
 
-    for i in os.listdir("modules"):
-        if i == f"{api['file']}.py":
-            print("Found module file!")
-            os.remove(f"modules/{api['file']}.py")
-            break
-
-    for i in os.listdir("templates"):
-        if i == f"{api['file']}.html":
-            print("Found template file!")
-            os.remove(f"templates/{api['file']}.html")
-            break
+    with open("__init__.py", "a") as f:
+        f.write(f"from .{api['file']} import start_point as {api['file']}_start\n")
 
 
 def create_run_file():
@@ -116,24 +107,25 @@ def create_run_file():
     with open(f"config.json", "r") as f:
         config_file = json.load(f)
         config_file["files"].append(files)
-        with open("config.json", "w") as f:
-            json.dump(config_file, f, indent=4)
+        with open("config.json", "w") as w_file:
+            json.dump(config_file, w_file, indent=4)
 
     with (open("run.ps1", "r") as f):
         lines = f.readlines()
         for i in range(len(lines)):
             if f"Switch ($select)" in lines[i]:
                 name = files["name"]
-                lines[i + 1] = f"{'{'}" + '\n  (\"' + files["show"] + '\") ' + (f"{'{'}" +
-                f"\nWrite-Host 'Starting {files['show']}...'\nirm api.heggli.dev/{name} | iex\n" + f"{'}'}\n")
+                lines[i + 1] = f"{'{'}" + '\n  (\"' + files["show"] + '\") ' + (
+                        f"{'{'}" + f"\nWrite-Host 'Starting {files['show']}...'\nirm api.heggli.dev/{name} | iex\n" +
+                        f"{'}'}\n")
 
         for i in range(len(lines)):
             if lines[i].startswith("#"):
                 lines[i] = "Write-Host '    " + files["show"] + " as [" + files["name"] + " ]'\n" + lines[i]
                 break
 
-        with open("run.ps1", "w") as f:
-            f.writelines(lines)
+        with open("run.ps1", "w") as w_file:
+            w_file.writelines(lines)
 
 
 def del_api():
@@ -148,20 +140,44 @@ def del_api():
         for i in config_file["apis"]:
             if i["file"] == name:
                 config_file["apis"].remove(i)
-                with open("config.json", "w") as f:
-                    json.dump(config_file, f, indent=4)
+                with open("config.json", "w") as w_file:
+                    json.dump(config_file, w_file, indent=4)
                 break
 
     with open("main.py", "r") as f:
         # update the path_handler dict in main.py
         lines = f.readlines()
         for i in range(len(lines)):
-            if f"\"{name}\": md.{name}.start_point()," in lines[i]:
+            if f"\"{name}\": {name}_start," in lines[i]:
                 print("Found path_handler dict!")
                 lines[i] = ""
                 break
-        with open("main.py", "w") as f:
-            f.writelines(lines)
+
+        with open("main.py", "w") as w_file:
+            w_file.writelines(lines)
+
+    with open("__init__.py", "r") as f:
+        lines = f.readlines()
+        for i in range(len(lines)):
+            if f"from .{name} import start_point as {name}_start" in lines[i]:
+                print("Found init file!")
+                lines[i] = ""
+                break
+
+        with open("__init__.py", "w") as w_file:
+            w_file.writelines(lines)
+
+    for i in os.listdir("modules"):
+        if i == f"{name}.py":
+            print("Found module file!")
+            os.remove(f"modules/{name}.py")
+            break
+
+    for i in os.listdir("templates"):
+        if i == f"{name}.html":
+            print("Found template file!")
+            os.remove(f"templates/{name}.html")
+            break
 
 
 def del_run_file():
@@ -176,8 +192,8 @@ def del_run_file():
         for i in config_file["files"]:
             if i["name"] == name:
                 config_file["files"].remove(i)
-                with open("config.json", "w") as f:
-                    json.dump(config_file, f, indent=4)
+                with open("config.json", "w") as w_file:
+                    json.dump(config_file, w_file, indent=4)
                 break
 
     with open("run.ps1", "r") as f:
@@ -196,8 +212,8 @@ def del_run_file():
                 lines[i + 2] = ""
                 lines[i + 3] = ""
                 break
-        with open("run.ps1", "w") as f:
-            f.writelines(lines)
+        with open("run.ps1", "w") as w_file:
+            w_file.writelines(lines)
 
 
 def visible_run_file():
@@ -212,8 +228,8 @@ def visible_run_file():
                     i["visible"] = 0
                 else:
                     i["visible"] = 1
-                with open("config.json", "w") as f:
-                    json.dump(config_file, f, indent=4)
+                with open("config.json", "w") as w_file:
+                    json.dump(config_file, w_file, indent=4)
                 break
 
 
@@ -229,20 +245,20 @@ def visible_api():
                     i["visible"] = 0
                 else:
                     i["visible"] = 1
-                with open("config.json", "w") as f:
-                    json.dump(config_file, f, indent=4)
+                with open("config.json", "w") as w_file:
+                    json.dump(config_file, w_file, indent=4)
                 break
 
 
 if __name__ == '__main__':
-    with open("config.json", "r") as f:
-        config = json.load(f)
-    for i in config["apis"]:
-        forbidden_names_create.append(i["name"])
-        forbidden_names_create.append(i["file"])
-    for i in config["files"]:
-        forbidden_names_create.append(i["show"])
-        forbidden_names_create.append(i["name"])
+    with open("config.json", "r") as j:
+        config = json.load(j)
+    for k in config["apis"]:
+        forbidden_names_create.append(k["name"])
+        forbidden_names_create.append(k["file"])
+    for k in config["files"]:
+        forbidden_names_create.append(k["show"])
+        forbidden_names_create.append(k["name"])
 
     print("What do you want to do?")
     print("   Create a new API------------------[1]")
