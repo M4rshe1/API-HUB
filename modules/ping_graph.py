@@ -92,14 +92,14 @@ def gen_graph(data: list, file_path: str, settings: dict) -> None:
                     f_color = "yellow"
                 else:
                     f_color = "red"
-                ax1.plot(timestamps[i:i + 2], times[i:i + 2], linestyle='-', markersize=6,
+                ax1.plot(timestamps[i:i + 2], times[i:i + 2], linestyle='-', markersize=5,
                          markerfacecolor=f_color, markeredgecolor=f_color, markeredgewidth=1, marker=marker,
                          color=color)
             else:
-                marker = 'X'
+                marker = 'o'
                 f_color = 'red'
-                ax1.plot(timestamps[i:i + 2], times[i:i + 2], linestyle='-', markersize=8,
-                         markerfacecolor=f_color, markeredgecolor=f_color, markeredgewidth=1, marker=marker,
+                ax1.plot(timestamps[i:i + 2], times[i:i + 2], linestyle='-', markersize=5,
+                         markerfacecolor="white", markeredgecolor=f_color, markeredgewidth=1, marker=marker,
                          color=color)
 
         # Add text labels for times next to the markers
