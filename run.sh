@@ -57,7 +57,7 @@ fi
 
 if $rebuild -eq true; then
     echo "Pulling the latest changes..."
-    git pull origin "$branch"
+    git pull
     echo "Deleting the old Docker container..."
     sudo docker rm -f apihub
     echo "Deleting the old Docker image..."
