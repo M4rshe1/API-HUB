@@ -48,9 +48,11 @@ def gen_graph(data: list, file_path: str, settings: dict) -> None:
     table_data["Start -> End"] = str(datetime.utcfromtimestamp(time_diff.total_seconds()).strftime('%H:%M:%S'))
     table_data["Start Time"] = data[0]["starttime"]
     table_data["End Time"] = data[-1]["endtime"]
-    table_data["Min"] = min(tmp_times)
-    table_data["Max"] = max(tmp_times)
-    table_data["Avg"] = sum(tmp_times) / len(tmp_times)
+    # min where not 0
+    table_data["Min"] = min([i for i in tmp_times if i != 0])
+    table_data["Max"] = round(max(tmp_times))
+    # len where not 0
+    table_data["Avg"] = sum(tmp_times) / len([i for i in tmp_times if i != 0])
     table_data["Device"] = data[0]["device"]
 
     # Create the main figure with gridspec to arrange the graph and table
@@ -73,8 +75,7 @@ def gen_graph(data: list, file_path: str, settings: dict) -> None:
         count += 1
         timestamps = entry["timestamps"]
         times = entry["times"]
-        request_name = f"Request {count}"  # Use the request name
-
+        request_name = f"Session {count}"  # Use the request name
         # Assign a color for this request if it doesn't already have one
         if request_name not in request_colors:
             request_colors[request_name] = plt.cm.jet(len(request_colors) / len(data))

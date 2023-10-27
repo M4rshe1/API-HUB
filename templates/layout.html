@@ -23,13 +23,13 @@
 </head>
 <body>
 <header>
-    <a href="/"><i class="fa-solid fa-house home-icon"></i></a>
+    <a href="/" class="header-icon home-icon"><i class="fa-solid fa-house "></i></a>
     {% if title %}
         <h1>{{ title }}</h1>
     {% else %}
         <h1>API HUB</h1>
     {% endif %}
-    <a href="/"></a>
+    <a href="/admin/" class="header-icon admin-icon"><i class="fa-solid fa-lock"></i></a>
 </header>
 <main>
     {% block content %}

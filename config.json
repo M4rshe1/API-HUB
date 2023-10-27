@@ -1,52 +1,54 @@
 {
-    "settings": {
-        "log": 1,
-        "log_lvl": 1
+  "settings": {
+    "log": 1,
+    "log_lvl": 1,
+    "username": "admin",
+    "password_hash": "7ce1add0d288b35e45c616c518379675ffd3cb1c80b3f31f314d01e509057f81"
+  },
+  "apis": [
+    {
+      "name": "Ping Graph",
+      "description": "Converts Ping Data to a helpful graph.",
+      "file": "ping_graph",
+      "author": "M4rshe1",
+      "docs": "https://github.com/M4rshe1/tups1s/blob/main/USB/docs/ping_tool.md",
+      "author_link": "https://github.com/M4rshe1",
+      "visible": 1
+    }
+  ],
+  "files": [
+    {
+      "name": "ping",
+      "show": "Ping Tool",
+      "link": "https://raw.githubusercontent.com/M4rshe1/tups1s/main/USB/Scripts/ping_tool/ping_tool.ps1",
+      "command": "irm ping.heggli.dev | iex",
+      "description": "A Powershell script that pings a host and returns the results in a JSON format.",
+      "docs": "https://github.com/M4rshe1/tups1s/blob/main/USB/docs/ping_tool.md",
+      "author": "M4rshe1",
+      "author_link": "https://github.com/M4rshe1",
+      "visible": 1
     },
-    "apis": [
-        {
-            "name": "Ping Graph",
-            "description": "Converts Ping Data to a helpful graph.",
-            "file": "ping_graph",
-            "author": "M4rshe1",
-            "docs": "https://github.com/M4rshe1/tups1s/blob/main/USB/docs/ping_tool.md",
-            "author_link": "https://github.com/M4rshe1",
-            "visible": 1
-        }
-    ],
-    "files": [
-        {
-            "name": "ping",
-            "show": "Ping Tool",
-            "link": "https://raw.githubusercontent.com/M4rshe1/tups1s/main/USB/Scripts/ping_tool/ping_tool.ps1",
-            "command": "irm ping.heggli.dev | iex",
-            "description": "A Powershell script that pings a host and returns the results in a JSON format.",
-            "docs": "https://github.com/M4rshe1/tups1s/blob/main/USB/docs/ping_tool.md",
-            "author": "M4rshe1",
-            "author_link": "https://github.com/M4rshe1",
-            "visible": 1
-        },
-        {
-            "name": "ctt",
-            "show": "CTT Tool",
-            "link": "christitus.com/win",
-            "command": "irm christitus.com/win | iex",
-            "description": "A Powershell script that installs a bunch of useful tools.<strong><br>(Not made by me)<br>Credit to Chris Titus Tech.</strong>",
-            "docs": "https://github.com/ChrisTitusTech/winutil",
-            "author": "Chris Titus Tech",
-            "author_link": "https://christitus.com",
-            "visible": 1
-        },
-        {
-            "name": "all",
-            "show": "All Tools",
-            "description": "This file will start a Powershell file with an overview of all RUN files on the API HUB.",
-            "link": "https://raw.githubusercontent.com/M4rshe1/API-HUB/main/runfiles/all.ps1",
-            "author": "M4rshe1",
-            "command": "irm api.heggli.dev/all | iex",
-            "docs": "https://github.com/M4rshe1/API-HUB",
-            "author_link": "https://github.com/M4rshe1",
-            "visible": 1
-        }
-    ]
+    {
+      "name": "ctt",
+      "show": "CTT Tool",
+      "link": "christitus.com/win",
+      "command": "irm christitus.com/win | iex",
+      "description": "A Powershell script that installs a bunch of useful tools.<strong><br>(Not made by me)<br>Credit to Chris Titus Tech.</strong>",
+      "docs": "https://github.com/ChrisTitusTech/winutil",
+      "author": "Chris Titus Tech",
+      "author_link": "https://christitus.com",
+      "visible": 1
+    },
+    {
+      "name": "all",
+      "show": "All Tools",
+      "description": "This file will start a Powershell file with an overview of all RUN files on the API HUB.",
+      "link": "https://raw.githubusercontent.com/M4rshe1/API-HUB/main/runfiles/all.ps1",
+      "author": "M4rshe1",
+      "command": "irm api.heggli.dev/run/all | iex",
+      "docs": "https://github.com/M4rshe1/API-HUB",
+      "author_link": "https://github.com/M4rshe1",
+      "visible": 1
+    }
+  ]
 }
