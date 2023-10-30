@@ -45,7 +45,7 @@ switch ($select)
     }
     ("ctt") {
         Write-Host "Starting CTT Tool..."
-        Invoke-RestMethod 'irm christitus.com/win | iex' | Invoke-Expression
+        Invoke-RestMethod 'christitus.com/win' | Invoke-Expression
     }
     ("pwsh") {
         Write-Host "Starting CTT Tool..."
