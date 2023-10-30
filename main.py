@@ -35,7 +35,7 @@ logging_levels = ["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"]
 @app.route("/", methods=["GET"])
 def index():
     # print(request.base_url)
-    if str(request.url) == "https://ping.heggli.dev/":
+    if str(request.url) == "http://ping.heggli.dev/":
         return redirect("/run/ping")
     file = config_load_config("config.json")
     # logger.log("Loading index page...", LOGGING_LVL, LOGGING_HEADER, LOGGING, lvl=1)
