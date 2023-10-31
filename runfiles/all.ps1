@@ -24,6 +24,7 @@ function main()
     Write-Host "    Ping Tool           [ping]"
     Write-Host "    CTT Tool            [ctt]"
     Write-Host "    PWSH Profile        [pwsh]"
+    Write-Host '    Device Info as      [info]'
 }
 
 # Calling the main function

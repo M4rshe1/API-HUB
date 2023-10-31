@@ -184,7 +184,7 @@ def create_run_file():
     files["author"] = input("Author of the file: ")
     files["author_link"] = input("Link to the author of the file: ")
     files["docs"] = input("Documentation link of the file: ")
-    files["command"] = f"irm api.heggli.dev/{files['name']} | iex"
+    files["command"] = f"irm api.heggli.dev/run/{files['name']} | iex"
 
     with open(f"config.json", "r") as f:
         config_file = json.load(f)
@@ -198,7 +198,7 @@ def create_run_file():
             if f"Switch ($select)" in lines[i]:
                 name = files["name"]
                 lines[i + 1] = f"{'{'}" + '\n  (\"' + files["show"] + '\") ' + (
-                        f"{'{'}" + f"\nWrite-Host 'Starting {files['show']}...'\nirm api.heggli.dev/{name} | iex\n" +
+                        f"{'{'}" + f"\nWrite-Host 'Starting {files['show']}...'\nirm api.heggli.dev/run/{name} | iex\n" +
                         f"{'}'}\n")
 
         for i in range(len(lines)):
@@ -281,14 +281,14 @@ if __name__ == '__main__':
     for k in config["files"]:
         forbidden_names_create.append(k["show"])
         forbidden_names_create.append(k["name"])
-        print("  _          _")
-        print(" | |        | |")
-        print(" | |__   ___| |_ __   ___ _ __ ___")
-        print(" | '_ \ / _ \ | '_ \ / _ \ '__/ __|")
-        print(" | | | |  __/ | |_) |  __/ |  \__ \ ")
-        print(" |_| |_|\___|_| .__/ \___|_|  |___/")
-        print("               | |")
-        print("               |_|")
+    print("  _          _")
+    print(" | |        | |")
+    print(" | |__   ___| |_ __   ___ _ __ ___")
+    print(" | '_ \ / _ \ | '_ \ / _ \ '__/ __|")
+    print(" | | | |  __/ | |_) |  __/ |  \__ \ ")
+    print(" |_| |_|\___|_| .__/ \___|_|  |___/")
+    print("               | |")
+    print("               |_|")
     print("What do you want to do?")
     print("   Create a new API------------------[1]")
     print("   Delete an API---------------------[2]")
