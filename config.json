@@ -62,7 +62,7 @@
             "visible": 1
         },
         {
-            "name": "device_info",
+            "name": "info",
             "show": "Device Info",
             "description": "A Powershell FIle that displays some information about your device.",
             "link": "https://raw.githubusercontent.com/M4rshe1/tups1s/main/USB/Scripts/device/device_info.ps1",
@@ -70,7 +70,7 @@
             "docs": "https://github.com/M4rshe1/tups1s",
             "author_link": "https://github.com/M4rshe1",
             "visible": 1,
-            "command": "irm api.heggli.dev/run/device_info | iex"
+            "command": "irm api.heggli.dev/run/info | iex"
         }
     ]
 }
